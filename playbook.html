@@ -1,0 +1,2917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transparency in Generative AI Systems: A Playbook</title>
+<meta name="description" content="10 actionable plays for organizational leaders and managers deploying generative AI responsibly.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ===== CSS CUSTOM PROPERTIES ===== */
+:root {
+  --font: 'Inter', -apple-system, sans-serif;
+  --display: 'DM Serif Display', Georgia, serif;
+  /* Core palette — drawn from reference design */
+  --bg: #F4F7FB;
+  --white: #FFFFFF;
+  --navy: #0F2557;
+  --navy-light: #1A3A7A;
+  --blue: #1B4FBF;
+  --blue-mid: #2B62D9;
+  --blue-pale: #EBF2FF;
+  --sky: #64B8E8;
+  --sky-pale: #D6EDFA;
+  --sky-very-pale: #F0F8FE;
+  /* Category colors aligned to reference palette */
+  --gov: #0F2557;
+  --gov-pale: #EBF0FB;
+  --tools: #1B4FBF;
+  --tools-pale: #EBF2FF;
+  --deploy: #1A7FAA;
+  --deploy-pale: #E6F4FB;
+  /* Gold accent — reference's warm yellow */
+  --gold: #E8A820;
+  --gold-dark: #B8821A;
+  --gold-pale: #FEF6DC;
+  /* These map old names to new for backwards compat */
+  --purple: #0F2557;
+  --purple-light: #1A3A7A;
+  --purple-pale: #EBF0FB;
+  --teal: #1A7FAA;
+  --teal-light: #2497C8;
+  --teal-pale: #E6F4FB;
+  --accent: #1B4FBF;
+  /* Text */
+  --text: #1C2541;
+  --text-mid: #3D4F73;
+  --text-light: #6A7B9A;
+  --border: #D8E4F0;
+  --border-dark: #B8CCDF;
+  --shadow: 0 2px 12px rgba(15,37,87,0.08);
+  --shadow-lg: 0 8px 32px rgba(15,37,87,0.12);
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--white);
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.7;
+}
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { max-width: 100%; }
+.section-inner ul, .section-inner ol {
+  padding-left: 24px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+.section-inner li {
+  margin-bottom: 6px;
+}
+
+/* ===== LAYOUT SHELL ===== */
+.page-shell {
+  display: flex;
+  min-height: 100vh;
+}
+.main-content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ===== SIDEBAR NAVIGATION ===== */
+.nav {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 200px;
+  flex-shrink: 0;
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  scrollbar-width: none;
+  z-index: 100;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+}
+.nav::-webkit-scrollbar { display: none; }
+.nav-inner {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0 32px;
+  flex: 1;
+}
+.nav-logo {
+  font-weight: 800;
+  font-size: 12px;
+  color: white;
+  padding: 0 20px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+}
+.nav a {
+  color: rgba(255,255,255,0.82);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 8px 20px;
+  white-space: normal;
+  line-height: 1.4;
+  transition: color 0.2s, background 0.2s;
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  display: block;
+}
+.nav a:hover { color: white; background: rgba(255,255,255,0.05); text-decoration: none; }
+.nav a.active {
+  color: #FFD166;
+  font-weight: 700;
+  background: rgba(232,168,32,0.10);
+  border-left: 3px solid var(--gold);
+}
+.nav a.plays { color: rgba(255,255,255,0.82); }
+.nav a.plays.active { color: #FFD166; }
+
+/* ===== COVER ===== */
+.cover {
+  background: var(--navy);
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 520px; height: 520px;
+  background: radial-gradient(circle, rgba(100,184,232,0.18) 0%, transparent 65%);
+  pointer-events: none;
+}
+.cover::after {
+  content: '';
+  position: absolute;
+  bottom: -60px; left: -60px;
+  width: 380px; height: 380px;
+  background: radial-gradient(circle, rgba(232,168,32,0.15) 0%, transparent 65%);
+  pointer-events: none;
+}
+.cover-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.cover-tag {
+  display: inline-block;
+  background: rgba(232,168,32,0.2);
+  border: 1px solid rgba(232,168,32,0.5);
+  color: var(--gold);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  border-radius: 100px;
+  margin-top: 24px;
+  margin-bottom: 0;
+}
+.cover h1 {
+  font-family: var(--display);
+  font-size: clamp(44px, 6vw, 78px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin-bottom: 24px;
+}
+.cover h1 span { color: var(--sky); font-style: italic; }
+.cover-subtitle {
+  font-size: 20px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 48px;
+  max-width: 600px;
+}
+.cover-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.cover-pill {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 8px 18px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.85);
+}
+.cover-scroll {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.4);
+  font-size: 12px;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+.cover-scroll::before {
+  content: '↓';
+  display: block;
+  font-size: 20px;
+  margin-bottom: 4px;
+  animation: bounce 2s infinite;
+}
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+/* ===== CHAPTER BREAK HEADERS ===== */
+.chapter-break {
+  background: var(--white);
+  color: var(--navy);
+  padding: 72px 40px 0;
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+}
+.chapter-break-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  padding-bottom: 48px;
+  border-bottom: 3px solid var(--gold);
+}
+/* Decorative oversized numeral behind the text */
+.chapter-numeral {
+  font-family: var(--display);
+  font-size: clamp(120px, 16vw, 200px);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1;
+  color: var(--sky-pale);
+  position: absolute;
+  right: -10px;
+  top: -20px;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -0.04em;
+}
+.chapter-text { position: relative; z-index: 1; }
+.chapter-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.chapter-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 32px;
+  height: 3px;
+  background: var(--gold);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.chapter-name {
+  font-family: var(--font);
+  font-size: clamp(36px, 4.5vw, 60px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: 16px;
+  color: var(--navy);
+}
+.chapter-name span { color: var(--blue); }
+.chapter-desc {
+  font-size: 16px;
+  color: var(--text-mid);
+  line-height: 1.65;
+  max-width: 600px;
+  font-weight: 400;
+}
+/* Gold stripe accent — top-right geometric motif */
+.chapter-break::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 100%;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--gold) 0px,
+    var(--gold) 20px,
+    transparent 20px,
+    transparent 28px
+  );
+  opacity: 0.7;
+}
+
+/* ===== SECTION CONTAINERS ===== */
+.section {
+  padding: 80px 40px;
+}
+.section-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.section-wide {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.section-alt { background: var(--bg); }
+.section-dark { background: var(--navy); color: white; }
+
+/* ===== SECTION HEADERS ===== */
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  color: var(--accent);
+}
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 56px;
+  margin-bottom: 20px;
+}
+.section-divider::before {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: var(--border);
+}
+.section-divider-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--navy);
+  color: white;
+  border-radius: 6px;
+  padding: 6px 16px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.section-divider-badge .divider-letter {
+  font-size: 15px;
+  font-weight: 900;
+}
+.section-divider::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: var(--border);
+}
+.section-title {
+  font-size: clamp(24px, 2.8vw, 34px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 24px;
+  color: var(--navy);
+}
+.section-intro {
+  font-size: 17px;
+  color: var(--text-mid);
+  line-height: 1.7;
+  margin-bottom: 40px;
+  max-width: 720px;
+}
+.divider {
+  width: 40px;
+  height: 3px;
+  border-radius: 2px;
+  margin-bottom: 28px;
+}
+.divider-purple { background: var(--blue); }
+.divider-blue { background: var(--blue); }
+.divider-teal { background: var(--deploy); }
+.divider-gold { background: var(--gold); }
+.divider-accent { background: var(--gold); }
+
+/* ===== INSIDE COVER GRID ===== */
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+.meta-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+}
+.meta-card h3 {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7D5A00;
+  margin-bottom: 12px;
+}
+.meta-card p { color: var(--text-mid); font-size: 15px; line-height: 1.65; }
+
+/* ===== NEED-TO-KNOW CARDS ===== */
+.ntk-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 56px;
+}
+.ntk-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--gold);
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+.ntk-num {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 36px;
+  font-weight: 400;
+  color: var(--deploy);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 32px;
+}
+.ntk-card p { color: var(--text-mid); font-size: 15px; line-height: 1.65; }
+.ntk-card strong { color: var(--text); }
+
+/* ===== PLAYS OVERVIEW TABLE ===== */
+.plays-table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+table.plays-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  font-size: 14px;
+}
+.plays-table th {
+  padding: 14px 18px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: left;
+  background: var(--navy);
+  color: white;
+}
+.plays-table td {
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.plays-table tr:last-child td { border-bottom: none; }
+.plays-table tr:hover td { background: #FAFAFA; }
+.plays-table .cat-row td {
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.plays-table .cat-gov td { background: var(--gov-pale); color: var(--gov); }
+.plays-table .cat-tools td { background: var(--tools-pale); color: var(--tools); }
+.plays-table .cat-deploy td { background: var(--deploy-pale); color: var(--deploy); }
+.play-num-badge-sm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 12px;
+  color: white;
+  flex-shrink: 0;
+}
+.badge-gov { background: var(--gov); }
+.badge-tools { background: var(--tools); }
+.badge-deploy { background: var(--deploy); }
+
+/* ===== BODY TEXT SECTIONS ===== */
+.content-block {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px;
+  margin-bottom: 32px;
+  box-shadow: var(--shadow);
+}
+.content-block h3 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+.content-block h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 24px 0 10px;
+  color: var(--text);
+}
+.content-block p { color: var(--text-mid); margin-bottom: 16px; }
+.content-block p:last-child { margin-bottom: 0; }
+.content-block ul, .content-block ol {
+  padding-left: 20px;
+  color: var(--text-mid);
+  margin-bottom: 16px;
+}
+.content-block li { margin-bottom: 8px; }
+
+/* ===== CALLOUT BOXES ===== */
+.callout {
+  border-radius: var(--radius);
+  padding: 32px 36px;
+  margin: 32px 0;
+}
+.callout-purple {
+  background: var(--bg);
+  border-left: 5px solid var(--navy);
+}
+.callout-blue {
+  background: var(--tools-pale);
+  border-left: 5px solid var(--tools);
+}
+.callout-gold {
+  background: var(--gold-pale);
+  border-left: 5px solid var(--gold);
+}
+.callout-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.callout-purple .callout-title { color: var(--navy); }
+.callout-blue .callout-title { color: var(--tools); }
+.callout-gold .callout-title { color: var(--gold-dark); }
+.callout p { color: var(--text-mid); margin-bottom: 12px; font-size: 15px; }
+.callout p:last-child { margin-bottom: 0; }
+.reg-section {
+  margin-top: 20px;
+  border-top: 1px solid rgba(8,145,178,0.2);
+  padding-top: 16px;
+}
+.reg-section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.reg-section-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  background: var(--tools);
+  color: white;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 800;
+  flex-shrink: 0;
+  position: relative;
+  top: 1px;
+}
+.reg-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.4;
+}
+.reg-section-subtitle {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-mid);
+  opacity: 0.8;
+}
+.reg-section-body {
+  font-size: 14px;
+  color: var(--text-mid);
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+.reg-examples-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tools);
+  margin-bottom: 6px;
+  margin-top: 10px;
+}
+.reg-examples {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+.reg-examples li {
+  font-size: 13px;
+  color: var(--text-mid);
+  padding: 6px 0 6px 16px;
+  border-left: 2px solid rgba(8,145,178,0.2);
+  margin-left: 8px;
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+.reg-examples li:last-child { margin-bottom: 0; }
+.reg-trend {
+  margin-top: 20px;
+  border-top: 1px solid rgba(8,145,178,0.2);
+  padding-top: 16px;
+}
+.reg-trend-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tools);
+  margin-bottom: 8px;
+}
+
+/* ===== DIMENSION CARDS ===== */
+.dim-web {
+  background: var(--off-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 36px 32px 32px;
+  position: relative;
+  overflow: visible;
+}
+.dim-row { position: relative; z-index: 1; }
+.dim-card { position: relative; z-index: 1; }
+.dim-web-label {
+  text-align: center;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--navy);
+  opacity: 0.35;
+  margin-bottom: 24px;
+}
+.dim-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+}
+.dim-row-top { margin-bottom: 0; }
+.dim-row-bottom { margin-top: 20px; }
+.dim-connector {
+  width: 100%;
+  overflow: visible;
+  position: absolute;
+  top: 0; left: 0;
+  pointer-events: none;
+}
+.dim-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  flex: 0 0 calc(33.33% - 14px);
+  max-width: 220px;
+  position: relative;
+}
+.dim-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+}
+.dim-card:nth-child(1)::before { background: #1B4FBF; }
+.dim-card:nth-child(2)::before { background: #0891B2; }
+.dim-card:nth-child(3)::before { background: #7C3AED; }
+.dim-card.dim-card-b1::before { background: #D97706; }
+.dim-card.dim-card-b2::before { background: #059669; }
+.dim-card h5 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+.dim-card p { font-size: 13px; color: var(--text-mid); margin: 0; line-height: 1.5; }
+.dim-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+/* ===== BUSINESS CASE CARDS ===== */
+.biz-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 32px;
+}
+.biz-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow);
+}
+.biz-card-icon {
+  font-size: 28px;
+  margin-bottom: 14px;
+}
+.biz-card h4 {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+.biz-card p { font-size: 14px; color: var(--text-mid); line-height: 1.65; }
+
+/* ===== TOOLS GRID ===== */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 32px;
+}
+.tool-level {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+.tool-level h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--blue);
+  margin-bottom: 8px;
+}
+.tool-level .who {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-bottom: 12px;
+  font-style: italic;
+}
+.tool-level p, .tool-level ul { font-size: 14px; color: var(--text-mid); }
+.tool-level ul { padding-left: 16px; }
+.tool-level li { margin-bottom: 4px; }
+
+/* ===== CHALLENGES ===== */
+.challenge-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 32px;
+}
+.challenge-item {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  display: flex;
+  gap: 20px;
+  box-shadow: var(--shadow);
+}
+.challenge-num {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 48px;
+  font-weight: 400;
+  color: var(--deploy);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 48px;
+}
+.challenge-item h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.challenge-item p { font-size: 14px; color: var(--text-mid); margin: 0; }
+
+/* ===== CATEGORY HEADERS ===== */
+.cat-header {
+  padding: 48px 40px 0;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.cat-banner {
+  border-radius: var(--radius);
+  padding: 32px 40px;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.cat-banner-gov { background: var(--gov); color: white; }
+.cat-banner-tools { background: var(--tools); color: white; }
+.cat-banner-deploy { background: var(--deploy); color: white; }
+.cat-banner-num {
+  font-size: 64px;
+  font-weight: 900;
+  opacity: 0.2;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.cat-banner h2 {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+.cat-banner p { opacity: 0.85; font-size: 15px; line-height: 1.55; }
+
+/* ===== PLAYS INDEX ===== */
+.plays-index {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+.plays-index-category {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.plays-index-cat-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  color: white;
+}
+.plays-index-gov .plays-index-cat-label { background: var(--gov); }
+.plays-index-tools .plays-index-cat-label { background: var(--tools); }
+.plays-index-deploy .plays-index-cat-label { background: var(--deploy); }
+.plays-index-list {
+  margin: 0;
+  padding: 12px 20px 12px 44px;
+  background: white;
+  list-style: decimal;
+}
+.plays-index-list li {
+  padding: 5px 0;
+  font-size: 14px;
+  color: var(--text-mid);
+}
+.plays-index-list li a {
+  color: var(--text-mid);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.plays-index-gov .plays-index-list li a:hover { color: var(--gov); }
+.plays-index-tools .plays-index-list li a:hover { color: var(--tools); }
+.plays-index-deploy .plays-index-list li a:hover { color: var(--deploy); }
+
+/* ===== PLAY CARDS ===== */
+.plays-section {
+  padding: 0 40px 80px;
+}
+.plays-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.play-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 40px;
+  box-shadow: var(--shadow);
+}
+.play-header {
+  padding: 36px 44px 28px;
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  align-items: start;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+/* Colored top border strip per category */
+.play-header-gov  { border-top: 4px solid var(--gov); }
+.play-header-tools { border-top: 4px solid var(--tools); }
+.play-header-deploy { border-top: 4px solid var(--deploy); }
+.play-number {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 96px;
+  font-weight: 400;
+  line-height: 0.9;
+  flex-shrink: 0;
+  align-self: start;
+  margin-top: 4px;
+}
+.play-header-gov  .play-number { color: var(--gov-pale); }
+.play-header-tools .play-number { color: var(--tools-pale); }
+.play-header-deploy .play-number { color: var(--deploy-pale); }
+.play-header h3 {
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin-bottom: 10px;
+  color: var(--navy);
+}
+.play-who-tag {
+  font-size: 12px;
+  color: var(--text-light);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.play-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+.play-col-left {
+  padding: 32px 44px;
+  border-right: 1px solid var(--border);
+}
+.play-col-right {
+  padding: 32px 44px;
+}
+.play-about {
+  padding: 28px 44px;
+  border-bottom: 1px solid var(--border);
+  grid-column: 1 / -1;
+  color: var(--text-mid);
+  font-size: 16px;
+  line-height: 1.75;
+  background: var(--bg);
+}
+.play-sub-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.play-sub-title-gov { color: var(--gov); border-color: var(--gov-pale); }
+.play-sub-title-tools { color: var(--tools); border-color: var(--tools-pale); }
+.play-sub-title-deploy { color: var(--deploy); border-color: var(--deploy-pale); }
+
+.play-benefits ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.play-benefits li {
+  padding: 8px 0 8px 24px;
+  position: relative;
+  font-size: 14px;
+  color: var(--text-mid);
+  border-bottom: 1px solid #F0EEE8;
+  line-height: 1.5;
+}
+.play-benefits li:last-child { border-bottom: none; }
+.play-benefits li .check {
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+  font-size: 13px;
+}
+.play-header-gov ~ .play-body .play-benefits li .check { color: var(--gov); }
+.play-header-tools ~ .play-body .play-benefits li .check { color: var(--tools); }
+.play-header-deploy ~ .play-body .play-benefits li .check { color: var(--deploy); }
+
+.play-how ol {
+  padding-left: 0;
+  list-style: none;
+  margin: 0;
+}
+.play-how li {
+  padding: 8px 0 8px 36px;
+  position: relative;
+  font-size: 14px;
+  color: var(--text-mid);
+  border-bottom: 1px solid #F0EEE8;
+  line-height: 1.5;
+}
+.play-how li:last-child { border-bottom: none; }
+.play-how li .step-num {
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+.gov-how li .step-num { background: var(--gov); }
+.tools-how li .step-num { background: var(--tools); }
+.deploy-how li .step-num { background: var(--deploy); }
+
+.play-case {
+  grid-column: 1 / -1;
+  padding: 24px 36px;
+  border-top: 1px solid var(--border);
+}
+.play-case-inner {
+  border-radius: var(--radius-sm);
+  padding: 20px 24px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text-mid);
+}
+.play-case-inner-gov { background: var(--gov-pale); }
+.play-case-inner-tools { background: var(--tools-pale); }
+.play-case-inner-deploy { background: var(--deploy-pale); }
+.play-case-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.play-case-label-gov { color: var(--gov); }
+.play-case-label-tools { color: var(--tools); }
+.play-case-label-deploy { color: var(--deploy); }
+
+.play-tools-section {
+  grid-column: 1 / -1;
+  padding: 20px 44px 28px;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+.play-tools-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.play-tools-section li {
+  background: transparent;
+  border: none;
+  border-top: 1px solid var(--border);
+  border-radius: 0;
+  padding: 10px 0;
+  font-size: 13px;
+  color: var(--text-mid);
+}
+.play-tools-section li:first-child { border-top: none; }
+.play-tools-section li a {
+  font-weight: 600;
+  font-size: 13px;
+}
+.play-tools-section li .tool-desc {
+  display: block;
+  font-size: 12px;
+  color: var(--text-mid);
+  margin-top: 2px;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+/* ===== CTA ===== */
+.cta-section {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+  color: white;
+  padding: 80px 40px;
+  text-align: center;
+}
+.cta-inner { max-width: 720px; margin: 0 auto; }
+.cta-section h2 {
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+.cta-section p {
+  font-size: 18px;
+  opacity: 0.8;
+  line-height: 1.65;
+  margin-bottom: 12px;
+}
+
+/* ===== APPENDIX TABLE ===== */
+.appendix-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  margin-top: 32px;
+}
+table.appendix-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  background: white;
+}
+.appendix-table th {
+  padding: 12px 14px;
+  background: var(--navy);
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-align: left;
+  white-space: nowrap;
+}
+.appendix-table th:first-child { width: 200px; }
+.appendix-table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+  text-align: center;
+  color: var(--text-mid);
+}
+.appendix-table td:first-child { text-align: left; font-weight: 600; color: var(--text); }
+.appendix-table tr:nth-child(even) td { background: #FAFAF8; }
+.appendix-table tr:last-child td { border-bottom: none; }
+.tag-strong { color: var(--deploy); font-weight: 600; }
+.tag-partial { color: var(--gold-dark); font-weight: 600; }
+.tag-rare { color: #B83232; font-weight: 600; }
+
+/* ===== GEOMETRIC DECORATIONS ===== */
+/* Gold vertical stripe bars — motif from reference */
+.geo-stripes {
+  display: flex;
+  gap: 5px;
+  align-items: stretch;
+}
+.geo-stripes span {
+  display: block;
+  width: 6px;
+  height: 40px;
+  background: var(--gold);
+  border-radius: 2px;
+}
+.geo-stripes span:nth-child(1) { height: 28px; }
+.geo-stripes span:nth-child(2) { height: 40px; }
+.geo-stripes span:nth-child(3) { height: 34px; }
+.geo-stripes span:nth-child(4) { height: 46px; }
+.geo-stripes span:nth-child(5) { height: 30px; }
+/* Pale blue semicircle accent */
+.geo-semicircle {
+  width: 80px;
+  height: 40px;
+  background: var(--sky-pale);
+  border-radius: 80px 80px 0 0;
+  opacity: 0.7;
+}
+/* Geometric tile grid used in section accents */
+.geo-tile {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--sky-pale);
+  flex-shrink: 0;
+}
+/* Stat pull-out — large featured number */
+.stat-pull {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 40px 0;
+  padding: 28px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.stat-pull-number {
+  font-family: var(--display);
+  font-size: 72px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--blue);
+  flex-shrink: 0;
+  letter-spacing: -0.02em;
+}
+.stat-pull-label {
+  font-size: 15px;
+  color: var(--text-mid);
+  line-height: 1.5;
+  max-width: 360px;
+}
+.stat-pull-label strong { color: var(--navy); }
+/* Geometric banner strip — replicates the reference mosaic footer strip */
+.geo-banner {
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(
+    to right,
+    var(--navy) 0%, var(--navy) 12.5%,
+    var(--blue) 12.5%, var(--blue) 25%,
+    var(--gold) 25%, var(--gold) 37.5%,
+    var(--sky) 37.5%, var(--sky) 50%,
+    var(--navy) 50%, var(--navy) 62.5%,
+    var(--sky-pale) 62.5%, var(--sky-pale) 75%,
+    var(--blue) 75%, var(--blue) 87.5%,
+    var(--gold) 87.5%, var(--gold) 100%
+  );
+}
+/* Section intro pull-quote (italic serif, large) */
+.pull-quote {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: clamp(20px, 2.5vw, 28px);
+  line-height: 1.45;
+  color: var(--navy);
+  padding: 32px 0 32px 28px;
+  border-left: 4px solid var(--gold);
+  margin-bottom: 48px;
+  max-width: 700px;
+}
+
+/* ===== COVER LAYOUT (two-column: title left, badges right) ===== */
+.cover-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto auto;
+  align-items: center;
+  gap: 0 40px;
+}
+.cover-left {
+  grid-column: 1;
+  grid-row: 1 / 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.cover-right {
+  grid-column: 2;
+  grid-row: 1 / 4;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-self: center;
+}
+.cover-badge-circle {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 32px;
+  flex-shrink: 0;
+}
+.cover-badge-circle img {
+  width: 72px;
+  height: auto;
+  object-fit: contain;
+}
+.cover-meta-badge {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 100px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.88);
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* ===== COVER LOGOS ===== */
+.cover-logos {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+.cover-logos img {
+  height: 90px;
+  width: auto;
+  object-fit: contain;
+  background: white;
+  border-radius: 6px;
+  padding: 10px 24px;
+}
+.cover-logos .logo-divider {
+  width: 1px;
+  height: 75px;
+  background: rgba(255,255,255,0.25);
+  flex-shrink: 0;
+}
+
+
+
+
+/* ===== CITATIONS & ENDNOTES ===== */
+sup.cite { font-size: 10px; line-height: 0; vertical-align: super; }
+sup.cite a { color: var(--blue); text-decoration: none; font-weight: 600; }
+sup.cite a:hover { text-decoration: underline; }
+.endnotes-list { list-style: none; padding: 0; margin: 0; }
+.endnotes-list li {
+  padding: 8px 0 8px 32px;
+  position: relative;
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 1.6;
+  border-bottom: 1px solid var(--border);
+}
+.endnotes-list li:last-child { border-bottom: none; }
+.endnotes-list li .ref-num {
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+  color: var(--blue);
+  font-size: 12px;
+}
+.endnotes-list li a { color: var(--blue); word-break: break-all; }
+
+/* ===== FOOTER ===== */
+footer {
+  background: var(--navy);
+  color: rgba(255,255,255,0.82);
+  text-align: center;
+  padding: 40px;
+  font-size: 13px;
+}
+
+/* ===== UTILITY ===== */
+.text-purple { color: var(--navy); }
+.text-blue { color: var(--blue); }
+.text-teal { color: var(--deploy); }
+.mt-32 { margin-top: 32px; }
+.mb-32 { margin-bottom: 32px; }
+.full-bleed { padding: 0; }
+
+/* ===== SKIP LINK ===== */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 12px;
+  background: var(--gold);
+  color: var(--navy);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  z-index: 9999;
+  text-decoration: none;
+}
+.skip-link:focus { top: 0; }
+
+/* ===== FOCUS STYLES ===== */
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.nav a:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: -3px;
+}
+
+/* ===== PRINT ===== */
+@media print {
+  @page {
+    size: A4;
+    margin: 18mm 22mm 22mm 22mm;
+  }
+  @page :first { margin: 0; }
+
+  /* Hide web-only elements */
+  .nav, .cover-scroll { display: none !important; }
+  .page-shell { display: block; }
+  .main-content { display: block; }
+
+  /* Preserve all backgrounds and colors exactly */
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+  /* Chapter breaks start new pages */
+  .chapter-break { page-break-before: always; break-before: page; }
+  /* Keep geo-banner glued to chapter break above it */
+  .geo-banner { page-break-before: avoid; break-before: avoid; margin: 0; page-break-after: avoid; break-after: avoid; }
+
+  /* Avoid mid-content page breaks */
+  .play-card     { page-break-inside: avoid; break-inside: avoid; }
+  .callout       { page-break-inside: avoid; break-inside: avoid; }
+  .biz-card      { page-break-inside: avoid; break-inside: avoid; }
+  .tool-level    { page-break-inside: avoid; break-inside: avoid; }
+  .ntk-card      { page-break-inside: avoid; break-inside: avoid; }
+  .biz-grid, .tools-grid, .meta-grid { page-break-inside: avoid; break-inside: avoid; }
+  .dim-grid      { page-break-inside: avoid; break-inside: avoid; }
+
+  /* Cover: bleed to full A4 page, no min-height */
+  .cover {
+    min-height: 0;
+    height: 297mm;
+    padding: 80mm 40px 40px;
+  }
+
+  /* Body text slightly smaller for print density */
+  body { font-size: 15px; }
+
+  /* Ensure plays section has no top padding breaking pages */
+  .plays-section { padding-top: 0; }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  /* Collapse sidebar to top bar */
+  .page-shell { flex-direction: column; }
+  .nav {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .nav-inner {
+    flex-direction: row;
+    align-items: center;
+    padding: 0 12px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    gap: 0;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .nav-logo {
+    padding: 12px 14px 12px 0;
+    border-bottom: none;
+    border-right: 1px solid rgba(255,255,255,0.15);
+    margin-bottom: 0;
+    margin-right: 4px;
+    white-space: nowrap;
+    font-size: 11px;
+  }
+  .nav a {
+    padding: 12px 10px;
+    border-left: none;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    display: inline-block;
+  }
+  .nav a.active {
+    border-left: none;
+    border-bottom: 3px solid var(--gold);
+  }
+  .section { padding: 48px 20px; }
+  .meta-grid { grid-template-columns: 1fr; }
+  .biz-grid { grid-template-columns: 1fr; }
+  .tools-grid { grid-template-columns: 1fr; }
+  .play-body { grid-template-columns: 1fr; }
+  .play-col-left { border-right: none; border-bottom: 1px solid var(--border); }
+  .play-about, .play-case, .play-tools-section { grid-column: 1; }
+  .cat-header { padding: 32px 20px 0; }
+  .plays-section { padding: 0 20px 48px; }
+  .cat-banner { padding: 24px; }
+  .play-header, .play-col-left, .play-col-right, .play-about, .play-case, .play-tools-section { padding-left: 24px; padding-right: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div class="page-shell">
+<nav class="nav" aria-label="Section navigation">
+  <div class="nav-inner">
+    <div class="nav-logo">AI Transparency Playbook</div>
+    <a href="#exec-summary">Executive Summary</a>
+    <a href="#introduction">I. Introduction</a>
+    <a href="#background">II. Background</a>
+    <a href="#in-practice">III. Transparency in Practice</a>
+    <a href="#tools">IV. Tools &amp; Resources</a>
+    <a href="#challenges">V. Challenges</a>
+    <a href="#plays" class="plays">VI. The Plays</a>
+    <a href="#cta">Call to Action</a>
+    <a href="#appendix">Appendix</a>
+  </div>
+</nav>
+<main id="main-content" class="main-content">
+
+<!-- ===== COVER ===== -->
+<section class="cover" id="cover">
+  <div class="cover-inner" style="display:block;">
+    <div class="cover-logos">
+      <img src="Logos/ReAI Initiative_logo.png" alt="Responsible AI Initiative · BAIR">
+      <div class="logo-divider"></div>
+      <img src="Logos/images-1.png" alt="Berkeley Haas">
+    </div>
+    <h1>Transparency in<br><span>Generative AI</span> Systems</h1>
+    <div class="cover-tag">A Playbook for Organizational Leaders &amp; Managers</div>
+  </div>
+  <div class="cover-scroll">SCROLL</div>
+</section>
+
+<!-- ===== ABOUT / INSIDE COVER ===== -->
+<section class="section section-alt" id="about-playbook">
+  <div class="section-inner">
+    <div class="section-label">About This Playbook</div>
+    <h2 class="section-title">Transparency is how leaders turn generative AI from a noisy black box into a system people can interpret, use, and govern responsibly.</h2>
+    <div class="meta-grid">
+      <div class="meta-card">
+        <h3>What is this playbook?</h3>
+        <p>This playbook helps organizations operationalize transparency in generative AI. It provides ten concrete plays that leaders can use to design, govern, and deploy generative AI (genAI) systems in ways that build trust, support accountability, and enable sustainable adoption.</p>
+      </div>
+      <div class="meta-card">
+        <h3>Who is this playbook for?</h3>
+        <p>This playbook is for leaders and teams responsible for deploying generative AI, including executives, product managers, and responsible AI practitioners — whether they build models or adopt them from external providers.</p>
+      </div>
+      <div class="meta-card">
+        <h3>Why use this playbook?</h3>
+        <p>Transparency is foundational to building trust and sustaining adoption. It helps organizations to build appropriate user understanding, enable employees to use AI tools responsibly, identify and mitigate risks, and prepare for evolving regulation.</p>
+      </div>
+      <div class="meta-card">
+        <h3>How to use this playbook?</h3>
+        <p>This playbook is designed as a reference and an actionable guide. It includes: (A) Background context on what transparency is, why it matters for genAI, and how transparency needs differ across stakeholders; (B) An overview of transparency strategies and tools; and (C) Ten actionable plays spanning three categories: governance and organizational foundations, transparency tools and oversight mechanisms, and deployment and end-user transparency.</p>
+      </div>
+      <div class="meta-card" style="grid-column: 1 / -1;">
+        <h3>How and by whom was this playbook developed?</h3>
+        <p>This playbook was developed by the Responsible AI Initiative at the UC Berkeley AI Research Lab with Berkeley Haas. It was authored by Genevieve Smith and Natalia Luka. It benefited from research assistance by Naisha Jain, Oliver Lucca DeVita, Urmi Sumant, Dominique Wimmer, and Vinaya Sivakumar. The playbook synthesizes existing literature and builds from research conducted by a broader team including Genevieve Smith, Natalia Luka, Sahiba Chopra, Min Kyung Lee, and Dominique Wimmer. The playbook was prototyped with managers and business leaders. The project received funding support from Google. (See Appendix for full acknowledgements.)</p>
+        <p style="margin-top:10px;font-size:13px;color:var(--text-light);"><em>Disclaimer: This playbook was published in April 2026. Mention of a company product in this playbook does not constitute endorsement.</em></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EXECUTIVE SUMMARY ===== -->
+<section class="chapter-break" id="exec-summary">
+  <div class="chapter-numeral">ES</div>
+  <div class="chapter-break-inner">
+    <div class="chapter-text">
+      <div class="chapter-eyebrow">Executive Summary</div>
+      <h2 class="chapter-name">Executive <span>Summary</span></h2>
+    </div>
+  </div>
+</section>
+<div class="geo-banner"></div>
+<section class="section" id="exec-summary-body">
+  <div class="section-inner">
+    <p>GenAI technologies are rapidly being embedded in products, workplaces, and everyday decision-making. As these systems become more powerful and pervasive in our workplaces and lives – while also evolving into increasingly autonomous AI agents – the need for transparency has never been greater. Transparency is fundamental to responsible and sustainable adoption: it helps people understand AI systems and their outputs in ways that empower them to meaningfully use, trust, and adopt AI tools.</p>
+    <p style="margin-top:16px;">This playbook is for organizational leaders seeking to embed transparency into the design, deployment and governance of genAI systems, offering practical strategies to operationalize transparency across the AI lifecycle.</p>
+    <p class="pull-quote" style="margin-top:40px;">In practice, transparency is how organizations turn generative AI from a noisy black box into a system people can interpret, use, and govern responsibly.</p>
+
+    <div class="section-label">Need to Know</div>
+    <h3 class="section-title" style="margin-bottom:32px;">Five things every leader should understand</h3>
+    <div class="ntk-grid">
+      <div class="ntk-card">
+        <div class="ntk-num">1</div>
+        <div>
+          <p><strong>Transparency is defined by usefulness, not disclosure alone.</strong> Rather than a single checkbox, it's about meeting different stakeholders where they are so they understand AI systems well enough to rely on them. Transparency is like documentation for a building: occupants need clear signs and exits, operators need blueprints, inspectors need compliance reports. Everyone needs transparency, just not the same kind.</p>
+        </div>
+      </div>
+      <div class="ntk-card">
+        <div class="ntk-num">2</div>
+        <div>
+          <p><strong>Transparency is a business requirement for trust and sustainable adoption.</strong> For organizations, transparency supports user trust, better decision-making, regulatory readiness, and risk management. It enables employees, customers, and external stakeholders to understand system limitations and engage with AI appropriately.</p>
+        </div>
+      </div>
+      <div class="ntk-card">
+        <div class="ntk-num">3</div>
+        <div>
+          <p><strong>Transparency must show up in the product experience.</strong> End users need clear signals that help them decide whether to trust an output — such as chain-of-thought reasoning, confidence signals, and citations — that act as signage about AI and where an answer came from.</p>
+        </div>
+      </div>
+      <div class="ntk-card">
+        <div class="ntk-num">4</div>
+        <div>
+          <p><strong>Transparency must also exist in governance and oversight.</strong> For people building, deploying, and governing AI systems, transparency means actively creating and using documentation and evaluations — model and system cards as blueprints, and benchmarks or audits as reported test scores — to manage performance, limitations, and risk at scale.</p>
+        </div>
+      </div>
+      <div class="ntk-card">
+        <div class="ntk-num">5</div>
+        <div>
+          <p><strong>Both foundation model developers and deployers have important transparency responsibilities.</strong> Even when organizational leaders have limited control over upstream model development, they retain significant influence at the system level: how AI interacts with users, what safeguards are implemented, what documentation accompanies deployment, and how the system is evaluated and governed over time.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-top:48px;">The Plays</div>
+    <h3 class="section-title" style="margin-bottom:24px;">10 actionable plays across three categories</h3>
+    <div class="plays-table-wrap">
+      <table class="plays-table" aria-label="10 actionable plays across three categories">
+        <thead>
+          <tr><th scope="col">#</th><th scope="col">Play</th><th scope="col">Focus</th></tr>
+        </thead>
+        <tbody>
+          <tr class="cat-row cat-gov"><td colspan="3">A. Governance &amp; Organization</td></tr>
+          <tr><td><span class="play-num-badge-sm badge-gov">1</span></td><td>Make transparency a leadership priority</td><td>Leadership commitment &amp; principles</td></tr>
+          <tr><td><span class="play-num-badge-sm badge-gov">2</span></td><td>Set a transparency strategy across your organization and AI portfolio</td><td>Strategy &amp; portfolio management</td></tr>
+          <tr><td><span class="play-num-badge-sm badge-gov">3</span></td><td>Establish policies and structures to operationalize transparency</td><td>Policies, roles &amp; accountability</td></tr>
+          <tr><td><span class="play-num-badge-sm badge-gov">4</span></td><td>Build incentives and a culture that rewards transparency</td><td>Culture &amp; training</td></tr>
+          <tr class="cat-row cat-tools"><td colspan="3">B. Transparency Tools &amp; Oversight Mechanisms</td></tr>
+          <tr><td><span class="play-num-badge-sm badge-tools">5</span></td><td>Document AI systems at the right level: models for builders, systems for deployers</td><td>Documentation &amp; system cards</td></tr>
+          <tr><td><span class="play-num-badge-sm badge-tools">6</span></td><td>Maintain transparency around training data and data governance</td><td>Training data &amp; provenance</td></tr>
+          <tr><td><span class="play-num-badge-sm badge-tools">7</span></td><td>Maintain transparency around user data, privacy, and personal data use</td><td>Privacy &amp; user data</td></tr>
+          <tr><td><span class="play-num-badge-sm badge-tools">8</span></td><td>Benchmark, evaluate, and monitor AI systems – based on your role</td><td>Evaluation &amp; monitoring</td></tr>
+          <tr class="cat-row cat-deploy"><td colspan="3">C. Transparency in Deployment &amp; User Interactions</td></tr>
+          <tr><td><span class="play-num-badge-sm badge-deploy">9</span></td><td>Design transparency in AI outputs and user interactions</td><td>User-facing transparency &amp; UX</td></tr>
+          <tr><td><span class="play-num-badge-sm badge-deploy">10</span></td><td>Provide accountability and recourse mechanisms</td><td>Accountability &amp; recourse</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INTRODUCTION ===== -->
+<section class="chapter-break" id="introduction">
+  <div class="chapter-numeral">I</div>
+  <div class="chapter-break-inner">
+    <div class="chapter-text">
+      <div class="chapter-eyebrow">Chapter I</div>
+      <h2 class="chapter-name"><span>Introduction</span></h2>
+      <p class="chapter-desc">AI transparency means enabling people to understand AI systems well enough to meaningfully use, trust, and adopt them.</p>
+    </div>
+  </div>
+</section>
+<div class="geo-banner"></div>
+<section class="section" id="intro-body">
+  <div class="section-inner">
+    <div class="callout callout-gold" style="margin-bottom:24px;">
+      <p style="font-style:italic;">Maya is a product lead at a company that builds AI assistants for enterprise customers across industries, including healthcare. One morning, she receives an urgent message from a healthcare client: the assistant produced a confident but incorrect response to a health-related question. There were no sources, no uncertainty signal, and no explanation of how the answer was generated — raising concerns about potential harm and liability. Maya realized the issue wasn't just accuracy, it was about transparency: she couldn't explain the behavior, assess risk, or reassure the client. The question remaining was simple and critical: Why did this happen — and how do we make sure it doesn't happen again?</p>
+      <p style="font-style:italic;">This dynamic plays out across industries. When the Apple Card launched in 2019, customers noticed dramatically different credit limits between spouses who shared finances. Without transparency into how this occurred, many concluded the system was discriminatory against women. Regulators investigated, trust eroded, and Apple and Goldman Sachs were left unable to justify the outcomes.<sup class="cite"><a href="#ref-1" id="citeref-1">[1]</a></sup><sup class="cite"><a href="#ref-2" id="citeref-2">[2]</a></sup></p>
+    </div>
+    <p><strong>AI transparency means enabling people to understand AI systems well enough to meaningfully use, trust, and adopt them.</strong> For business leaders, transparency is increasingly essential to responsible deployment: supporting better decision-making, accountability, and stakeholder confidence.</p>
+    <p style="margin-top:16px;">Rather than a single or fixed concept, transparency is better understood as an end goal: ensuring that different people have the information and understanding they need to engage with AI systems in meaningful and responsible ways. Because stakeholders vary widely, their transparency needs also differ. What counts as "transparent" for an engineer looks very different from what is useful for a customer or regulator.</p>
+    <p style="margin-top:16px;">Transparency is a critical AI governance issue. In a review of AI ethics frameworks, transparency was the most widely cited principle.<sup class="cite"><a href="#ref-3" id="citeref-3">[3]</a></sup> Yet it remains limited in practice, including in generative AI (genAI). The stakes are rising as AI systems move from chat interfaces to agents that take autonomous actions and integrate into organizational workflows.</p>
+    <p style="margin-top:16px;">This playbook focuses on what business leaders and managers can do to bridge the gap between transparency as a principle and its implementation in practice. It's not a technical guide to interpretability research or a debate on open vs. closed models. It's a practical resource with leadership and organizational strategies to implement actionable transparency and build the kind of informed trust that enables responsible adoption.</p>
+  </div>
+</section>
+
+<!-- ===== BACKGROUND ===== -->
+<section class="chapter-break" id="background">
+  <div class="chapter-numeral">II</div>
+  <div class="chapter-break-inner">
+    <div class="chapter-text">
+      <div class="chapter-eyebrow">Chapter II</div>
+      <h2 class="chapter-name"><span>Background</span></h2>
+      <p class="chapter-desc">What is AI transparency, why does it matter, and what is the business case for getting it right?</p>
+    </div>
+  </div>
+</section>
+<div class="geo-banner"></div>
+<section class="section" id="background-body">
+  <div class="section-inner">
+    <div class="section-divider">
+      <div class="section-divider-badge"><span class="divider-letter">A</span> What is AI transparency?</div>
+    </div>
+    <h3 class="section-title">What is AI transparency and why does it matter?</h3>
+    <p><strong>AI transparency refers to the extent to which an AI system – and the decisions or outputs it produces – can be understood by the people who build, deploy, and use it.</strong> It involves opening the curtain on how an AI system works in practice: what data it draws from, how it generates results, what limitations it has, the decision-making processes that went into its development, and how it is governed.</p>
+    <p style="margin-top:16px;">For organizations, transparency is not simply a technical concern, it is foundational to responsible adoption, supporting trust, accountability, effective oversight and informed use.<sup class="cite"><a href="#ref-4" id="citeref-4">[4]</a></sup> Without it, stakeholders can't evaluate AI outputs, catch errors, or know when a system is being used appropriately, leaving organizations exposed to risk they can't see.</p>
+
+    <h4 style="margin-top:32px;margin-bottom:8px;">GenAI raises the stakes</h4>
+    <p>Transparency has long been an important topic in machine learning systems, which learn from massive amounts of data to find patterns and make predictions. Foundation models powering genAI systems continue to scale rapidly, trained on ever-larger datasets and powered by increasing amounts of compute. Yet their behavior remains difficult to fully predict or explain.</p>
+    <p style="margin-top:16px;">Unlike earlier systems that primarily classified or ranked information, genAI systems generate new outputs, including text, code, images, audio and more. They can produce responses that sound confident but are inaccurate ("hallucinations"), and it is often unclear why a particular output was produced or how a system arrived at it. This creates significant challenges for oversight, accountability, and responsible use.</p>
+    <p style="margin-top:16px;">As these systems are increasingly deployed as agents capable of taking autonomous actions within organizational workflows, this opacity becomes even more consequential: errors don't just mislead, they act.</p>
+
+    <div class="callout callout-blue" style="margin-top:24px;">
+      <div class="callout-title">Model vs. system vs. agent (and why the distinction matters for transparency)</div>
+      <p>In AI, a <strong>model</strong> is the algorithmic component trained on data to transform inputs into outputs (for example, a large language model).</p>
+      <p>A <strong>system</strong> is the full, real-world application built on top of one or more models. It integrates prompts, interfaces, data pipelines, safeguards, and governance processes. The same underlying model can power many different systems: Claude.ai and Claude Code are distinct systems built on the same underlying model, as is a company's internal HR chatbot.</p>
+      <p>An <strong>agent</strong> is a type of AI system designed to take actions on a user's behalf, such as browsing the web, sending emails, or executing multi-step tasks. Agents increase autonomy and therefore raise the stakes for transparency, oversight, and accountability.</p>
+      <p>While organizations may have limited visibility into or control over the internals of a foundation model, they have substantial responsibility — and opportunity — at the system level.</p>
+    </div>
+
+    <h3 class="section-title" style="margin-top:48px;">Transparency is multi-dimensional</h3>
+    <p class="section-intro">Transparency is not a single feature or checkbox.<sup class="cite"><a href="#ref-5" id="citeref-5">[5]</a></sup><sup class="cite"><a href="#ref-6" id="citeref-6">[6]</a></sup> It encompasses several dimensions that work together to support meaningful understanding and oversight.</p>
+    <p style="margin-top:16px;">These include: visibility, explainability, interpretability, openness, and accessibility (see Box 1). Achieving transparency requires addressing these dimensions holistically. Visibility ensures that stakeholders are informed about the presence and role of AI in the first place. Explainability and interpretability focus on how decisions and processes are understood. Openness focuses on disclosing information about the design, development, and operation of AI systems. Accessibility ensures that information is understandable and usable by all relevant stakeholders.</p>
+    <div class="dim-web" style="margin-top:24px;margin-bottom:24px;" id="dim-web">
+      <div class="dim-web-label">Five dimensions of transparency — holistically connected</div>
+
+      <!-- SVG connector lines drawn between card centers, sits behind cards -->
+      <svg class="dim-connector" id="dim-svg" aria-hidden="true" style="height:0;position:absolute;top:0;left:0;z-index:0;"></svg>
+
+      <div class="dim-row dim-row-top" id="dim-top">
+        <div class="dim-card" id="dc-1">
+          <h5>Visibility</h5>
+          <p>Whether stakeholders are aware of when and how AI is present and influencing outcomes. Includes disclosure practices (e.g., labeling AI-generated content) to reduce the risk of AI shaping critical outcomes without people's knowledge.</p>
+        </div>
+        <div class="dim-card" id="dc-2">
+          <h5>Explainability</h5>
+          <p>Providing clear and comprehensible justifications for an AI system's decisions or actions. Ensures end-users and stakeholders can understand why a particular result was produced.</p>
+        </div>
+        <div class="dim-card" id="dc-3">
+          <h5>Interpretability</h5>
+          <p>The extent to which the internal workings of an AI system (e.g., model parameters, relationships between variables) can be understood by humans. Looks inward, often requiring technical expertise.</p>
+        </div>
+      </div>
+      <div class="dim-row dim-row-bottom" id="dim-bot">
+        <div class="dim-card dim-card-b1" id="dc-4">
+          <h5>Openness</h5>
+          <p>Sharing information about the design, development, and operation of AI systems — including data sources, algorithms, decision-making criteria, and ongoing practices like data retention and model updates.</p>
+        </div>
+        <div class="dim-card dim-card-b2" id="dc-5">
+          <h5>Accessibility</h5>
+          <p>Ensuring that information about an AI system is understandable and usable by all relevant stakeholders, regardless of their technical expertise, resources, or ability.</p>
+        </div>
+      </div>
+    </div>
+    <script>
+    (function() {
+      function drawLines() {
+        var web = document.getElementById('dim-web');
+        var svg = document.getElementById('dim-svg');
+        if (!web || !svg) return;
+        var ids = ['dc-1','dc-2','dc-3','dc-4','dc-5'];
+        var webRect = web.getBoundingClientRect();
+        var centers = ids.map(function(id) {
+          var el = document.getElementById(id);
+          if (!el) return null;
+          var r = el.getBoundingClientRect();
+          return {
+            x: r.left - webRect.left + r.width / 2,
+            y: r.top - webRect.top + r.height / 2
+          };
+        });
+        if (centers.some(function(c){ return !c; })) return;
+        var h = webRect.height;
+        svg.style.height = h + 'px';
+        svg.style.width = '100%';
+        svg.setAttribute('viewBox', '0 0 ' + webRect.width + ' ' + h);
+        svg.innerHTML = '';
+        var pairs = [[0,1],[1,2],[0,2],[3,4],[0,3],[0,4],[1,3],[1,4],[2,3],[2,4]];
+        pairs.forEach(function(p) {
+          var a = centers[p[0]], b = centers[p[1]];
+          var line = document.createElementNS('http://www.w3.org/2000/svg','line');
+          line.setAttribute('x1', a.x); line.setAttribute('y1', a.y);
+          line.setAttribute('x2', b.x); line.setAttribute('y2', b.y);
+          line.setAttribute('stroke', '#CBD5E1');
+          line.setAttribute('stroke-width', '1.5');
+          line.setAttribute('stroke-dasharray', '4 4');
+          svg.appendChild(line);
+        });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', drawLines);
+      } else {
+        setTimeout(drawLines, 50);
+      }
+      window.addEventListener('resize', drawLines);
+    })();
+    </script>
+    <p>Relying on any one dimension or mechanism alone, such as a model card or a disclosure label, is insufficient. Importantly, transparency is not only about technical understanding: it also includes how AI systems shape organizational decisions, worker experiences, and broader societal impacts.</p>
+
+    <h3 class="section-title" style="margin-top:48px;">Transparency for whom?</h3>
+    <p>Transparency means different things to different stakeholders. What counts as "transparent" depends on who is interacting with the system and what they are doing with it.</p>
+    <p style="margin-top:16px;">User transparency helps end users understand and trust both AI outputs (e.g., through citations and confidence scores) and the broader AI system (e.g., its data use and retention, and any external influences), enabling them to make informed decisions. Meanwhile, developer transparency supports system builders to understand, debug, and enhance AI models by providing insights into their internal workings. Regulatory transparency and societal transparency support external accountability, compliance, and public legitimacy.</p>
+    <p style="margin-top:16px;">In a 2026 survey, the UCB Responsible AI Initiative asked over 400 respondents what forms of transparency matter most to them when using genAI. The population included end users, developers, and policymakers across income levels and geographies. Trusting accuracy and protecting privacy emerged as the top priorities overall, with 66% of respondents selecting accuracy as their primary transparency need, followed by privacy and data protection at 49%.</p>
+    <p style="margin-top:16px;">While transparency needs were broadly similar across groups, each group is solving a different problem, with different reported gaps linked to those needs:</p>
+    <div style="overflow-x:auto;margin-top:16px;">
+      <table class="plays-table" style="font-size:13px;" aria-label="Transparency needs by stakeholder group">
+        <thead><tr><th scope="col">Stakeholder</th><th scope="col">Primary Transparency Need</th><th scope="col">Biggest Reported Gap</th></tr></thead>
+        <tbody>
+          <tr><td><strong>End users</strong></td><td>Knowing outputs are accurate and that a system is trustworthy</td><td>Limited AI disclosure and personal data privacy information</td></tr>
+          <tr><td><strong>Developers</strong></td><td>Evidence to justify and defend system behavior</td><td>Performance evaluation, system operation transparency, and training data visibility</td></tr>
+          <tr><td><strong>Policymakers</strong></td><td>Tools and frameworks to oversee and hold AI systems accountable</td><td>Documentation, privacy information, and AI disclosure</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:16px;">Notably, developers cared more about understanding how the system works overall than about trusting individual outputs, suggesting that technical familiarity shifts transparency needs away from "is this answer right?" toward "is this system well-designed and governed?"</p>
+    <p style="margin-top:16px;">In short, transparency is best understood as an end goal: enabling different groups to engage with AI systems meaningfully and responsibly, rather than a one-size-fits-all definition or technique.</p>
+
+    <h3 class="section-title" style="margin-top:48px;">The current state of genAI transparency</h3>
+    <p>Despite widespread agreement that transparency is important, genAI transparency remains limited.</p>
+    <p style="margin-top:16px;">On <strong>openness</strong>, Stanford University's Foundation Model Transparency Index has scored foundation model developers since 2023 on transparency on 100 transparency indicators. Its most recent 2025 edition found that companies scored worse than the prior year, with a 17-point average decrease from 2024.<sup class="cite"><a href="#ref-8" id="citeref-8">[8]</a></sup> Training data continues to be particularly opaque with little disclosure on copyright and licensing, and many companies still don't share basic information such as model size and architecture. That said, not all companies declined: Writer and IBM significantly increased their scores.</p>
+    <p style="margin-top:16px;">On <strong>interpretability</strong>, core technical approaches that might support transparency, such as interpretability and mechanistic understanding of large models, remain an active area of research. While novel methods are evolving, including efforts to map internal concept representations and trace computational graphs inside models, reliable methods to explain why large language models produce particular outputs is lacking.<sup class="cite"><a href="#ref-9" id="citeref-9">[9]</a></sup><sup class="cite"><a href="#ref-10" id="citeref-10">[10]</a></sup></p>
+    <p style="margin-top:16px;">Yet, gaps in <strong>explainability and accessibility</strong> of information may be the most underresourced. Model cards and data cards are among the most common tools organizations use to demonstrate transparency, yet fewer than 15% of respondents in the UCB Responsible AI Initiative survey reported ever accessing them. This gap is telling: transparency efforts focused on technical documentation may satisfy developer or regulatory needs, but aren't reaching or serving end users. Without a foundational understanding of how AI systems work and what their limitations are, users risk becoming overtrusting or overreliant on these systems. This creates real liability and harm risks for individuals and the organizations deploying these systems.</p>
+    <p style="margin-top:16px;">The gap between the importance of transparency in principle and its limited realization in practice – compounded by fragmented and still-emerging standards for visibility and disclosure, documentation, and governance – motivates this playbook.</p>
+  </div>
+</section>
+
+<section class="section section-alt" id="business-case">
+  <div class="section-inner">
+    <div class="section-divider">
+      <div class="section-divider-badge"><span class="divider-letter">B</span> The Business Case</div>
+    </div>
+    <h3 class="section-title">What is the business case for genAI transparency?</h3>
+    <p>Transparency in how AI systems are used in business is critical for building trust and loyalty with customers and employees, mitigating legal and financial liabilities, and gaining a competitive advantage through a stronger brand reputation.</p>
+    <p style="margin-top:16px;">The business case for genAI transparency can be broken up into four categories: trust and adoption, competitive differentiation, regulatory compliance, and stakeholder commitment.</p>
+    <p style="margin-top:16px;"><strong>Trust and adoption.</strong> Transparency allows users to understand how AI works, how it uses their data, and the limitations of its capabilities. This builds confidence in these tools and leads to greater satisfaction and user retention. A 2024 study by Zendesk found that 75% of organizations believe a lack of transparency can lead to customer churn.<sup class="cite"><a href="#ref-11" id="citeref-11">[11]</a></sup><sup class="cite"><a href="#ref-12" id="citeref-12">[12]</a></sup> The relationship between trust and adoption is particularly strong among users adopting AI in sensitive contexts, such as healthcare, finance, or legal services. Transparency can lead to a greater sense of agency in decision-making when customers feel they are able to apply their own judgement to evaluating a tool or outcome, making adoption more likely and deepening long-term engagement.</p>
+    <p style="margin-top:16px;"><strong>Competitive differentiation.</strong> Transparency about AI practices allows businesses to differentiate themselves from competitors through a stronger, more trustworthy brand and an enhanced ability to attract and retain top talent. While a 2024 PwC survey found that only 33% of executives say their companies disclose their AI governance framework, 69% of employees and 66% of consumers say such disclosure is important.<sup class="cite"><a href="#ref-13" id="citeref-13">[13]</a></sup> This gap represents an opportunity for businesses willing to be more transparent than their peers. In crowded markets, customers increasingly choose providers based on ethical AI practices. For enterprise customers especially, the ability to understand and verify AI practices can be the deciding factor in vendor selection, making transparency a genuine competitive advantage that translates directly to market share and revenue growth.</p>
+    <p style="margin-top:16px;"><strong>Regulatory compliance.</strong> Transparency positions businesses ahead of evolving AI regulations and reduces legal and financial liabilities. Laws like the EU AI Act (see Box 2) now require companies to disclose information about training data, model capabilities, and limitations, while regulations in healthcare, finance, and other sectors demand that AI-driven decisions be explainable. Beyond compliance, transparency makes it possible to explain AI-driven decisions in sensitive contexts like hiring, credit scoring, or medical diagnostics, which is increasingly necessary to defend against discrimination claims or regulatory scrutiny.</p>
+    <p style="margin-top:16px;"><strong>Stakeholder commitment.</strong> Investors and shareholders increasingly view transparent AI practices as an indicator of long-term sustainability and responsible governance. Companies that can clearly articulate their AI governance frameworks, demonstrate accountability for AI outcomes, and show commitment to addressing issues like bias are better positioned to attract investment and maintain shareholder confidence. By being upfront about AI capabilities, limitations, and ethical safeguards, companies signal mature leadership and long-term thinking that appeals to stakeholders looking beyond short-term gains.</p>
+    <p style="margin-top:16px;"><strong>As AI becomes more deeply embedded in business operations, transparency is shifting from a nice-to-have ethical commitment to a fundamental business imperative.</strong></p>
+  </div>
+</section>
+
+<!-- ===== IN PRACTICE ===== -->
+<section class="chapter-break" id="in-practice">
+  <div class="chapter-numeral">III</div>
+  <div class="chapter-break-inner">
+    <div class="chapter-text">
+      <div class="chapter-eyebrow">Chapter III</div>
+      <h2 class="chapter-name">Transparency <span>in Practice</span></h2>
+      <p class="chapter-desc">What does transparency actually look like across the AI lifecycle — from product experience to governance and oversight?</p>
+    </div>
+  </div>
+</section>
+<div class="geo-banner"></div>
+<section class="section" id="in-practice-body">
+  <div class="section-inner">
+    <p>Transparency in AI can take various forms, but at its core, it's about ensuring that stakeholders have the information they need to engage with AI systems responsibly and effectively. In practice, it includes both what an AI system communicates directly to its users and what information is available about how the system is developed and governed.</p>
+
+    <p style="margin-top:24px;"><strong>Transparency in AI outputs and interaction</strong></p>
+    <p style="margin-top:8px;">From a user's perspective, transparency often shows up through the system experience itself. These features shape day-to-day trust and usability. This includes:</p>
+    <ul>
+      <li>When content is AI generated</li>
+      <li>Why the system produced a particular output</li>
+      <li>How confident or uncertain the system is</li>
+      <li>What the tool should and should not be used for</li>
+      <li>What information or sources informed the response</li>
+    </ul>
+
+    <p style="margin-top:24px;"><strong>Transparency in development and governance</strong></p>
+    <p style="margin-top:8px;">Transparency extends beyond the interface. Many of the most important transparency signals depend on what organizations disclose about the system or tool behind the scenes, including:</p>
+    <ul>
+      <li>How the system was built and what data it relies on</li>
+      <li>What personal data the system collects, how it is stored or used, and what control users have over it</li>
+      <li>What limitations and known failure modes exist, and what societal or ethical impacts have been assessed (or not)</li>
+      <li>Whether the system is regularly evaluated for safety, fairness, and reliability – and results of those evaluations</li>
+      <li>What accountability mechanisms exist when harms or failures occur</li>
+      <li>What oversight, auditing, or governance structures are in place, including whether reviews are conducted independently and whether commercial relationships influence behavior</li>
+      <li>How changes, incidents, and known issues are disclosed and addressed over time</li>
+    </ul>
+    <p style="margin-top:16px;">Transparency in AI outputs and interactions shapes day-to-day usability, but development and governance transparency matters to all stakeholder groups, from developers and regulators to end users. The UCB Responsible AI Initiative survey found that information on personal data use and retention was one of the biggest transparency gaps for end users and knowing whether a system is trustworthy at all was a primary transparency need for end users. That kind of trust cannot be established through individual interactions alone, it requires clear communication about development and governance.</p>
+    <p style="margin-top:16px;">Together, these practices illustrate that transparency is not a single technical feature, but a combination of leadership and product design choices, documentation practices, governance structures, and accountability practices. These considerations become especially consequential for AI agents, where autonomous actions and embedded workflows raise the stakes for every item on this list.</p>
+    <p style="margin-top:16px;">For business leaders, the development and governance components of transparency are the most actionable starting points. Documentation, evaluation, governance processes, and accountability mechanisms determine what information is available in the first place.</p>
+    <p style="margin-top:16px;">With this in mind, we turn to the growing ecosystem of transparency tools and resources to support these efforts.</p>
+  </div>
+</section>
+
+<!-- ===== TOOLS ===== -->
+<section class="chapter-break" id="tools">
+  <div class="chapter-numeral">IV</div>
+  <div class="chapter-break-inner">
+    <div class="chapter-text">
+      <div class="chapter-eyebrow">Chapter IV</div>
+      <h2 class="chapter-name">Transparency <span>Tools &amp; Resources</span></h2>
+      <p class="chapter-desc">A growing ecosystem of documentation tools, benchmarks, and evaluations to support responsible AI deployment.</p>
+    </div>
+  </div>
+</section>
+<div class="geo-banner"></div>
+<section class="section" id="tools-body">
+  <div class="section-inner">
+    <p>There are a growing number of tools and resources to help leaders increase transparency, improve oversight, and support more responsible deployment. These tools can serve different purposes: some are designed to help organizations document and communicate how AI systems work, while others are intended to test, measure, and evaluate system behavior in practice.</p>
+    <p style="margin-top:16px;">It is important to note that most organizations adopting genAI are not building foundation models from scratch. Instead, they are integrating commercially available models into products, services, or internal workflows. In these cases, business leaders may have limited ability to influence upstream transparency practices such as training data disclosure or provider-issued model documentation. However, organizations have influence. They can factor transparency into model selection – choosing providers with greater openness about training data, governance, and system behavior – and voice expectations directly to their providers. Customer demand is an important lever for improving upstream transparency practices.</p>
+    <p style="margin-top:16px;">More broadly, organizations can implement meaningful transparency at the system level. Even when an underlying model is relatively opaque, developers and managers retain meaningful control over consequential transparency decisions: how AI is introduced to and communicates with users, what documentation accompanies the system, and what evaluations and benchmarks are conducted and whether results are shared.</p>
+    <p style="margin-top:16px;">We organize transparency tools into two broad categories:</p>
+    <ul>
+      <li><strong>A) Documentation tools –</strong> which help organizations record, communicate, and govern key information; and</li>
+      <li><strong>B) Benchmarks and evaluations –</strong> which assess system performance, risks, and reliability through structured testing.</li>
+    </ul>
+
+    <div class="section-divider">
+      <div class="section-divider-badge"><span class="divider-letter">A</span> Documentation Tools</div>
+    </div>
+    <h3 class="section-title">Capturing and communicating how AI systems work</h3>
+    <p>Documentation tools support transparency by capturing key information about how an AI system was built, what it's intended to do, and what limitations or risks it may introduce. They are important for oversight and accountability across the AI lifecycle. We organize documentation tools into four levels – dataset, model, system, and practice – based on where the documentation is targeted and who is responsible for creating it. While dataset and model documentation are primarily the responsibility of model providers, system and practice-level documentation are where deploying organizations have the most direct control and the most immediate opportunity to act.</p>
+
+    <p style="margin-top:24px;"><strong>Dataset level documentation</strong></p>
+    <p>Dataset level tools focus on transparency in the data used to train or finetune AI systems. They help stakeholders understand: where data came from; when it was collected or created; what populations or content are represented; and what biases, gaps, or risks may be present.</p>
+    <p style="margin-top:4px;"><em>Typically created by: Dataset creators, data scientists, ML engineers</em></p>
+    <p style="margin-top:4px;"><em>Examples: Datasheets for datasets, Dataset nutrition labels</em></p>
+
+    <p style="margin-top:24px;"><strong>Model-level documentation</strong></p>
+    <p>Model-level tools provide standardized information about the underlying AI model, including: intended use cases; performance characteristics; and ethical and known failure modes.</p>
+    <p style="margin-top:4px;"><em>Typically created by: Model developers, ML engineers, foundation model providers</em></p>
+    <p style="margin-top:4px;"><em>Examples: Model Cards, Nutrition labels for models</em></p>
+
+    <p style="margin-top:24px;"><strong>System-level documentation</strong></p>
+    <p>System-level tools describe an AI system in its full real-world context. They typically document: the system's purpose and intended users; how multiple models or components interact; and known limitations, safety measures, and governance practices. Unlike model-level documentation, system-level documentation captures the full deployment context: including prompts, interfaces, safeguards, and governance processes. Even when the underlying model is opaque, organizations can document how their system is intended to operate, what risks it introduces, and what accountability mechanisms are in place.</p>
+    <p style="margin-top:4px;"><em>Typically created by: Product leaders, system owners, deployment teams, risk and compliance</em></p>
+    <p style="margin-top:4px;"><em>Primary Examples: System Cards, AI FactSheets, Reward Reports, Application Cards</em></p>
+
+    <p style="margin-top:24px;"><strong>Practice-level documentation</strong></p>
+    <p>Transparency also depends on organizational processes, standards, and governance practices (not only technical artifacts). These practice-level tools may include: disclosure and reporting practices; internal governance frameworks; protocols and standards for responsible development; and mechanisms for accountability and recourse.</p>
+    <p style="margin-top:4px;"><em>Typically created by: Business leaders, legal and compliance teams, policy and governance teams</em></p>
+    <p style="margin-top:4px;"><em>Examples: content provenance standards (e.g., C2PA), transparency reporting frameworks, watermarking, organizational transparency policies</em></p>
+
+    <div class="callout callout-blue" style="margin-top:32px;">
+      <div class="callout-title">Disclosure as a cross-cutting practice</div>
+      <p>An especially important lever here is disclosure: organizational communication that helps stakeholders understand when and how AI is being used, what its limitations are, and what governance processes are in place. Disclosure may include:</p>
+      <ul style="margin-top:8px;">
+        <li>Watermarking or AI tags;</li>
+        <li>Providing citations or sources with outputs;</li>
+        <li>Releasing system documentation or higher-level system prompts;</li>
+        <li>Reporting known flaws, incidents, or fixes in model updates; and</li>
+        <li>Participating in voluntary transparency benchmarks.</li>
+      </ul>
+      <p style="margin-top:12px;">Disclosure goes beyond technical performance to organizational practices. This includes, as researchers have noted, labor practices, such as the recruitment of data annotation workers in the Global South, which remains one of the least transparent areas across the industry.</p>
+      <p style="margin-top:12px;"><em>Examples: International initiatives such as the OECD Hiroshima AI Process Reporting Framework that allows for comparison of disclosure practices across organizations. The EU recently developed a Code of Practice on marking and labelling of AI-generated content that sets standards for providers and deployers of AI-generated content.</em></p>
+      <p style="margin-top:12px;"><strong>For more information on the various examples and tools, including how they are similar and different, we have created this <a href="#appendix">AI Transparency Mapping</a>.</strong></p>
+    </div>
+
+    <div class="section-divider">
+      <div class="section-divider-badge"><span class="divider-letter">B</span> Benchmarks &amp; Evaluations</div>
+    </div>
+    <h3 class="section-title">Assessing system performance and reliability</h3>
+    <p>Benchmarks and evaluations are two related but distinct tools for assessing AI system performance. Benchmarks are standardized tests designed to measure capabilities such as accuracy, speed, reasoning ability, and reliability that enable comparison across models and over time. Evaluations are context-specific assessments of how a system behaves in a particular product, workflow, or user environment. Both matter, but they answer different questions: benchmarks ask "how does this model perform generally?" while evaluations ask "how does this system perform for us?"</p>
+    <p style="margin-top:16px;">Benchmarks are most often designed and run by foundation model developers, researchers, and infrastructure teams. Today there are three broad categories of benchmarks:</p>
+    <ul>
+      <li><strong>General performance benchmarks</strong>, which measure technical efficiency (e.g., speed, latency, resource use)</li>
+      <li><strong>Model capability benchmarks</strong>, which test reasoning, instruction-following and task performance (e.g., coding or math)</li>
+      <li><strong>Standardized test benchmarks</strong>, which compare model performance to human performance on exams or expert tasks</li>
+    </ul>
+    <p style="margin-top:16px;">While deployers don't usually create benchmarks themselves, they rely on them to compare models when selecting vendors, understand high-level capabilities and limitations, support due diligence and procurement, and demonstrate oversight to regulators, customers, or internal stakeholders.</p>
+    <p style="margin-top:16px;"><strong>Benchmarks are useful but incomplete.</strong> They can be narrow, easy to game, or unrepresentative of real-world use. For example, they often assume an average English speaking user or ideal conditions. High benchmark scores do not guarantee safety, fairness, or reliability in practice. Hence, benchmarks are one input among many. Benchmarks also reflect value judgments about what matters. What gets measured, and what is left out, signals which outcomes are prioritized. When benchmarks emphasize aggregate performance or average users while excluding bias, fairness, or differential impacts, high scores raise an important question: for whom, and in what context, is this the "best" performance? For business leaders, this means benchmark scores alone are an insufficient basis for deployment decisions, especially in high-stakes or diverse user contexts.</p>
+    <p style="margin-top:16px;"><strong>Evaluations can complement benchmarks by testing performance in context, but can also be limited.</strong> They vary widely in rigor and scope, and can reflect the same blind spots as the teams that design them. Together, benchmarks and evaluations are important inputs, but aren't substitutes for ongoing human oversight and governance.</p>
+  </div>
+</section>
+
+<!-- ===== CHALLENGES ===== -->
+<section class="chapter-break" id="challenges">
+  <div class="chapter-numeral">V</div>
+  <div class="chapter-break-inner">
+    <div class="chapter-text">
+      <div class="chapter-eyebrow">Chapter V</div>
+      <h2 class="chapter-name"><span>Challenges</span> to Transparency</h2>
+      <p class="chapter-desc">Despite the growing recognition of transparency's importance and a proliferation of tools, achieving meaningful transparency in practice remains difficult.</p>
+    </div>
+  </div>
+</section>
+<div class="geo-banner"></div>
+<section class="section" id="challenges-body">
+  <div class="section-inner">
+    <p>Despite the increasing recognition that transparency is important and a proliferation of tools, achieving meaningful transparency in practice remains difficult. Several interconnected challenges stand in the way.</p>
+
+    <p style="margin-top:24px;"><strong>1. The "Black box" problem</strong></p>
+    <p>AI models, particularly deep learning models including genAI, are inherently complex and operate as "black boxes" making it difficult to understand their decision making processes.<sup class="cite"><a href="#ref-20" id="citeref-20">[20]</a></sup><sup class="cite"><a href="#ref-21" id="citeref-21">[21]</a></sup> This opacity poses significant risks in high-stakes domains like healthcare and finance, where issues of accountability, bias, and trust are paramount.</p>
+    <p style="margin-top:8px;">Explainability tools can offer approximations or high-level insights into why a decision was made. This area of research, often called explainable AI (XAI), provides techniques to clarify AI decisions in ways that humans can understand and mitigate effects of the black box problem. Researchers have found that highly complex models often provide superior predictive accuracy but are inherently difficult to interpret, creating a tradeoff between performance and interpretability.<sup class="cite"><a href="#ref-22" id="citeref-22">[22]</a></sup><sup class="cite"><a href="#ref-23" id="citeref-23">[23]</a></sup><sup class="cite"><a href="#ref-24" id="citeref-24">[24]</a></sup></p>
+
+    <p style="margin-top:24px;"><strong>2. Corporate opacity and balancing tensions</strong></p>
+    <p>Companies developing genAI systems are often not transparent about their models, withholding details about training data, model architectures, and decision-making processes. This corporate opacity exacerbates the black box problem, hindering comprehensive evaluation by users, researchers, and regulators.</p>
+    <p style="margin-top:8px;">This opacity stems from multiple sources. Some are legitimate protective concerns, such as: guarding against misuse by bad actors, protecting user privacy, or managing liability risks associated with training data. Others are more commercial in nature, such as: protecting proprietary model architectures and training methods from competitors, or protecting the company from liability in the case of scraping and using training data that is copyright.<sup class="cite"><a href="#ref-25" id="citeref-25">[25]</a></sup></p>
+
+    <p style="margin-top:24px;"><strong>3. Unintended trust consequences and information overload</strong></p>
+    <p>If explanations or transparency is unclear or if biases and inaccuracies in the AI system are revealed, it can result in loss of trust. Further, high levels of transparency can result in a sense of information overload. There is a balance to strike with different stakeholders. Striking a balance between faithful (i.e. accurate reflections of the inner workings of the model) and explanations that are understandable to non-technical end users is difficult.<sup class="cite"><a href="#ref-26" id="citeref-26">[26]</a></sup><sup class="cite"><a href="#ref-27" id="citeref-27">[27]</a></sup></p>
+    <p style="margin-top:8px;">Researchers highlight that effective transparency is about explanations that are both faithful (i.e. accurate about the AI system) and understandable to the intended audience.<sup class="cite"><a href="#ref-28" id="citeref-28">[28]</a></sup> This reinforces the point that transparency looks different for different stakeholders.</p>
+
+    <p style="margin-top:24px;"><strong>5. Lack of standards and evolving regulation</strong></p>
+    <p>At a higher level, there is a lack of standardization in regards to what transparency should look like in practice. Organizations face a fragmented landscape of documentation frameworks and tools with limited guidance on when each is appropriate, for whom, or what level of detail is sufficient. This fragmentation makes it difficult for stakeholders to interpret transparency efforts in a consistent, comparable, or meaningful way.</p>
+    <p style="margin-top:8px;">Legal and ethical expectations around transparency continue to evolve (see Box 2). Despite increasing regulatory calls for transparency, current legal frameworks often lack specificity about how transparency should be implemented, particularly for organizations deploying systems built on external models. While laws are converging on requirements for documentation, risk assessment, and governance, a clear need for standardized practices and reporting tools remain, especially at the system level.</p>
+    <p style="margin-top:8px;">As a result, regulatory compliance often establishes a minimum floor for transparency. This leaves substantial responsibility, and opportunity, for organizations to go further.</p>
+
+    <div class="callout callout-blue" style="margin-top:24px;">
+      <div class="callout-title">Box 2. Regulation related to AI transparency: The current state &amp; trends</div>
+      <p>Regulation addresses AI transparency unevenly across the lifecycle. Most enforceable transparency requirements today focus on foundation model developers / general-purpose AI and providers of high-risk systems, emphasizing documentation, risk assessment, and governance. User-facing transparency requirements are more limited and typically focus on notice (e.g., labeling AI-generated content or disclosing when users are interacting with AI) rather than detailed explanations of how systems work.</p>
+      <p>Still, AI transparency has emerged as a central regulatory theme globally. Lawmakers increasingly require AI systems, especially those posing higher risks, to disclose their training data, logic, and outputs in ways that allow users and regulators to understand and evaluate them. While mechanisms vary, most frameworks converge on documentation, traceability, and labeling.</p>
+
+      <p style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px;">Where transparency requirements apply today</p>
+
+      <!-- Section 1 -->
+      <div class="reg-section">
+        <div class="reg-section-header">
+          <span class="reg-section-num">1</span>
+          <span class="reg-section-title">Developer &amp; system-level transparency <span class="reg-section-subtitle">— strongest, more standardized</span></span>
+        </div>
+        <p class="reg-section-body">These requirements apply primarily to foundation model developers and providers of general-purpose or high-risk AI systems. They emphasize model-level documentation, risk assessment, and governance.</p>
+        <div class="reg-examples-label">Examples</div>
+        <ul class="reg-examples">
+          <li><strong>European Union AI Act (2024):</strong> Uses a risk-based framework. High-risk systems must document training data, testing, decision logic, and risk mitigation measures. The Act also introduces dedicated transparency and governance obligations for general-purpose AI (GPAI) models. Not yet fully enforceable, phased in through 2027.</li>
+          <li><strong>California Transparency in Frontier AI Act (2025):</strong> Regulates developers of large, high-capacity ("frontier") AI models. Requires companies with revenues over $500 million to publicly release a frontier AI framework outlining their safety, risk, and governance practices, and to report major safety incidents to state authorities.</li>
+          <li><strong>California AB 2013:</strong> Requires documentation of training data provenance for generative AI systems.</li>
+          <li><strong>Singapore Model AI Governance Framework for Generative AI (2024):</strong> Takes a voluntary, governance-first approach, requiring standardized disclosure of training data, evaluation results, and mitigation measures, calibrated to the risk level of the model.</li>
+          <li>Other US states (e.g., Colorado's AI Act) include <strong>transparency statements and impact assessments</strong> as part of high-risk AI requirements.</li>
+        </ul>
+        <p class="reg-section-body" style="margin-top:10px;">Even where legislation is less prescriptive, regulators are issuing guidance and templates that steer documentation toward more standardized formats, such as the EU AI Act's implementing guidance and GPAI Code of Practice. Academic and industry research is also proposing documentation templates and structured formats (e.g., "AI Cards" and TechOps documentation templates) to align with regulatory regimes.</p>
+        <p class="reg-section-body" style="margin-bottom:0;">A key gap remains: While these requirements strengthen transparency at the model level, they rarely mandate standardized system-level documentation for organizations deploying AI.</p>
+      </div>
+
+      <!-- Section 2 -->
+      <div class="reg-section">
+        <div class="reg-section-header">
+          <span class="reg-section-num">2</span>
+          <span class="reg-section-title">User-facing transparency <span class="reg-section-subtitle">— more limited, notice-focused</span></span>
+        </div>
+        <p class="reg-section-body">These focus on informing users that AI is involved, rather than fully explaining how systems work or their limitations.</p>
+        <div class="reg-examples-label">Examples</div>
+        <ul class="reg-examples">
+          <li><strong>EU AI Act (2024):</strong> Requires labeling of AI-generated content and disclosure when users are interacting with AI systems.</li>
+          <li><strong>China Measures for Labeling of AI-Generated Synthetic Content (2025):</strong> Requires clear labeling of AI-generated content.</li>
+          <li><strong>California SB 942/AB 853 (California AI Transparency Act, 2025):</strong> Requires large GenAI providers (1M+ users) to include latent watermarks in image, video, and audio content, allow users to add "AI generated" labels, and provide free AI detection tools.</li>
+          <li><strong>India AI Governance Guidelines (2025):</strong> Take a light-touch, innovation-first approach emphasizing transparency reporting, mandatory labeling of AI-generated content, and consent and transparency obligations for AI systems processing personal data. Not yet fully enforceable, phased in by 2027.</li>
+        </ul>
+      </div>
+
+      <!-- Section 3 -->
+      <div class="reg-section">
+        <div class="reg-section-header">
+          <span class="reg-section-num">3</span>
+          <span class="reg-section-title">Explanations &amp; accountability <span class="reg-section-subtitle">— strongest in traditional decision-making AI</span></span>
+        </div>
+        <p class="reg-section-body">Requirements for explanations, mostly in systems such as credit or employment, often grounded in data protection and civil rights law.</p>
+        <div class="reg-examples-label">Examples</div>
+        <ul class="reg-examples">
+          <li><strong>United Kingdom AI Regulation Framework (2024):</strong> Uses a principles-based approach that encourages explanations of how AI decisions affect people, supported by transparency requirements within data protection impact assessments.</li>
+          <li><strong>OECD AI Principles:</strong> Call for transparency and explainability so affected individuals can understand outcomes, shaping regulatory approaches across more than 70 countries.</li>
+        </ul>
+        <p class="reg-section-body" style="margin-top:10px;margin-bottom:0;">For genAI, expectations around individualized explanations are less prescriptive and emerging.</p>
+      </div>
+
+      <!-- Overall trend -->
+      <div class="reg-trend">
+        <div class="reg-trend-label">Overall regulatory trend</div>
+        <p class="reg-section-body">Regulation is converging most clearly around standardized documentation and governance processes, rather than real-time explainability or model interpretability. The strongest requirements focus on making AI systems auditable after the fact (e.g., through system or model documentation, risk and impact assessments, incident reporting, and, in some cases, public transparency reports). User-facing transparency requirements are narrower and more uneven. Where they exist, they typically emphasize notice and provenance (e.g., labeling AI-generated content, disclosing when users are interacting with AI), rather than providing detailed explanations of how outputs are produced or how models reason.</p>
+        <p class="reg-section-body" style="margin-bottom:0;">Significant gaps remain, particularly for organizations that deploy AI systems built on top of external models. Few frameworks mandate standardized approaches to documenting system-level behavior in real-world contexts, require ongoing disclosure as systems evolve, or ensure transparency around issues such as bias, labor practices, or real-world performance across diverse user groups.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== THE PLAYS ===== -->
+<section class="chapter-break" id="plays">
+  <div class="chapter-numeral">VI</div>
+  <div class="chapter-break-inner">
+    <div class="chapter-text">
+      <div class="chapter-eyebrow">Chapter VI</div>
+      <h2 class="chapter-name">The <span>Plays</span></h2>
+      <p class="chapter-desc">10 practical plays to help organizations operationalize transparency in genAI systems.</p>
+    </div>
+  </div>
+</section>
+<div class="geo-banner"></div>
+
+<!-- Plays Index -->
+<section class="section section-alt" id="plays-index">
+  <div class="section-inner">
+    <p class="section-intro">This section presents 10 practical plays to help organizations operationalize transparency in genAI systems. The plays are designed for business leaders, managers, and teams deploying or overseeing genAI, whether for internal use, customer-facing products, or both.</p>
+    <p style="margin-top:16px;">The plays are organized into three sections. Section A builds the organizational foundation: the leadership commitment, strategy, policies, and culture that make transparency possible. Section B addresses transparency in development and governance: including the documentation, data practices, and evaluation processes that determine what information is available in the first place. Section C addresses transparency at the point of interaction: what users see, how they experience AI outputs, and what recourse they have when things go wrong.</p>
+    <p style="margin-top:16px;">Organizations may enter at different points depending on maturity, but reading them in order provides the strongest foundation.</p>
+    <div class="plays-index">
+      <div class="plays-index-category plays-index-gov">
+        <div class="plays-index-cat-label">A. Governance &amp; Organization</div>
+        <ul class="plays-index-list">
+          <li><a href="#play-1">Make transparency a leadership priority</a></li>
+          <li><a href="#play-2">Set a transparency strategy across your organization and AI portfolio</a></li>
+          <li><a href="#play-3">Establish policies and structures to operationalize transparency</a></li>
+          <li><a href="#play-4">Build incentives and a culture that rewards transparency</a></li>
+        </ul>
+      </div>
+      <div class="plays-index-category plays-index-tools">
+        <div class="plays-index-cat-label">B. Transparency Tools &amp; Oversight Mechanisms</div>
+        <ul class="plays-index-list">
+          <li><a href="#play-5">Document AI systems at the right level: models for builders, systems for deployers</a></li>
+          <li><a href="#play-6">Maintain transparency around training data and data governance</a></li>
+          <li><a href="#play-7">Maintain transparency around user data, privacy, and personal data use</a></li>
+          <li><a href="#play-8">Benchmark, evaluate, and monitor AI systems – based on your role</a></li>
+        </ul>
+      </div>
+      <div class="plays-index-category plays-index-deploy">
+        <div class="plays-index-cat-label">C. Transparency in Deployment &amp; User Interactions</div>
+        <ul class="plays-index-list">
+          <li><a href="#play-9">Design transparency in AI outputs and user interactions</a></li>
+          <li><a href="#play-10">Provide accountability and recourse mechanisms</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Category A: Governance -->
+<div class="cat-header">
+  <div class="cat-banner cat-banner-gov">
+    <div class="cat-banner-num">A</div>
+    <div>
+      <h2>Governance &amp; Organization</h2>
+      <p>Building the leadership commitment, strategy, policies, and culture that make transparency possible.</p>
+    </div>
+  </div>
+</div>
+<div class="plays-section">
+  <div class="plays-inner">
+
+    <!-- Play 1 -->
+    <div class="play-card" id="play-1">
+      <div class="play-header play-header-gov">
+        <div class="play-number">01</div>
+        <div>
+          <h3>Make transparency a leadership priority</h3>
+          <div class="play-who-tag">Who is involved: C-suite leaders, product and engineering leadership, legal and compliance teams, responsible AI leads</div>
+        </div>
+      </div>
+      <div class="play-about">
+        Transparency should be an explicit leadership commitment, not an afterthought or a technical detail delegated to teams.<sup class="cite"><a href="#ref-43" id="citeref-43">[43]</a></sup><sup class="cite"><a href="#ref-44" id="citeref-44">[44]</a></sup> Establishing transparency as a core AI principle signals how the organization expects AI systems to be designed, deployed, and governed — and frames it as a strategic asset rather than a compliance burden. When leaders treat transparency as a differentiator, it shapes product decisions, governance processes, and how teams respond when systems fail or raise concerns.
+      </div>
+      <div class="play-body">
+        <div class="play-col-left play-benefits">
+          <div class="play-sub-title play-sub-title-gov">Business Benefits</div>
+          <ul>
+            <li><span class="check">✓</span> Builds trust and adoption with users, customers, and enterprise clients by creating a reputation for prioritizing transparency</li>
+            <li><span class="check">✓</span> Reduces regulatory risk by setting clear expectations upfront</li>
+            <li><span class="check">✓</span> Strengthens decision-making and differentiation by making AI deployments more accountable and competitive in opaque markets</li>
+          </ul>
+        </div>
+        <div class="play-col-right play-how gov-how">
+          <div class="play-sub-title play-sub-title-gov">How</div>
+          <ol>
+            <li><span class="step-num">1</span><strong>Establish transparency as a named core AI principle.</strong> Align it with organizational values and make clear it is a leadership commitment.</li>
+            <li><span class="step-num">2</span><strong>Communicate this commitment visibly.</strong> Share your AI principles, including transparency, internally with teams and externally with customers and partners.</li>
+            <li><span class="step-num">3</span><strong>Use the principle as a guide.</strong> Apply it as an explicit input when evaluating product design, vendor selection, governance choices, and incident response. This way it is not just as a stated value but as an active decision-making lens.</li>
+          </ol>
+        </div>
+        <div class="play-case">
+          <div class="play-case-inner play-case-inner-gov">
+            <div class="play-case-label play-case-label-gov">Case Study — Salesforce</div>
+            <p>Salesforce offers an example of transparency established as a principle and leadership commitment. Developed through a year-long process involving employees across engineering, product, legal, and executive leadership, Salesforce's Trusted AI Principles include transparency as one of five named commitments, defined as ensuring customers understand the "why" behind each AI-driven recommendation or prediction so they can make informed decisions, identify unintended outcomes, and mitigate harm. In practice, this means publishing model cards, providing model explainability with predictions, and enabling customers to maintain control of their data at all times. For AI agents specifically, the principle extends to ensuring users understand when and how AI is involved in interactions, through clear disclosures, customizable prompts, and notifications. Rather than treating transparency as a compliance requirement, Salesforce framed it as a core differentiator shaping product design, governance, and customer relationships, a commitment that continues to be overseen by an Ethical Use Advisory Council.</p>
+          </div>
+        </div>
+        <div class="play-tools-section">
+          <div class="play-sub-title play-sub-title-gov">Tools &amp; Resources</div>
+          <ul>
+            <li><a href="https://www.weforum.org/publications/empowering-ai-leadership-ai-c-suite-toolkit/" target="_blank">World Economic Forum AI C-Suite Toolkit</a><span class="tool-desc">Governance guidance for boards and executive teams on integrating responsible AI into corporate strategy and management.</span></li>
+            <li><a href="https://www.salesforce.com/artificial-intelligence/trusted-ai/" target="_blank">Salesforce Trusted AI Principles</a><span class="tool-desc">Describes the leadership's AI commitments and how they guide internal practices, customer interactions, and external relations.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Play 2 -->
+    <div class="play-card" id="play-2">
+      <div class="play-header play-header-gov">
+        <div class="play-number">02</div>
+        <div>
+          <h3>Set a transparency strategy across your organization and AI portfolio</h3>
+          <div class="play-who-tag">Who is involved: C-suite leaders, product and engineering leadership, legal and compliance teams, responsible AI leads</div>
+        </div>
+      </div>
+      <div class="play-about">
+        Transparency requires a deliberate, organization-wide strategy that defines what transparency means, who it is for, and how it will be delivered across the AI lifecycle. A transparency strategy establishes baseline requirements for every AI system: documentation, governance, and accountability. It then tailors transparency to different stakeholders: end users, operators, developers, managers, and regulators all need different kinds of clarity to use, oversee, or evaluate AI systems responsibly.
+      </div>
+      <div class="play-body">
+        <div class="play-col-left play-benefits">
+          <div class="play-sub-title play-sub-title-gov">Business Benefits</div>
+          <ul>
+            <li><span class="check">✓</span> Enables trustworthy, scalable adoption by setting clear transparency expectations across AI systems and teams</li>
+            <li><span class="check">✓</span> Reduces operational, legal, and reputational risk by clarifying requirements and accountability upfront</li>
+            <li><span class="check">✓</span> Improves organizational alignment and differentiation by making transparency a strategic advantage</li>
+          </ul>
+        </div>
+        <div class="play-col-right play-how gov-how">
+          <div class="play-sub-title play-sub-title-gov">How</div>
+          <ol>
+            <li><span class="step-num">1</span><strong>Inventory your AI portfolio.</strong> List the genAI systems you use or are planning (internal tools, pilots, customer-facing products), including owners and primary user groups.</li>
+            <li><span class="step-num">2</span><strong>Define the baseline transparency bar.</strong> Establish minimum requirements that every system must meet (e.g., AI disclosure, data/privacy info, system cards, evaluation plan, and escalation path).</li>
+            <li><span class="step-num">3</span><strong>Segment stakeholders and their needs.</strong> Identify the key audiences for each system (end users, operators, managers, developers, regulators) and what actionable, useful transparency means for each.</li>
+            <li><span class="step-num">4</span><strong>Tier systems by risk and impact.</strong> Classify systems (e.g., low-risk internal vs. customer-facing vs. high-stakes advisory/decision-influencing).</li>
+            <li><span class="step-num">5</span><strong>Set tier-specific transparency requirements.</strong> Specify what gets added as risk increases (e.g., deeper documentation, user-facing explanations/citations/uncertainty signals).</li>
+            <li><span class="step-num">6</span><strong>Review and iterate.</strong> Reassess the strategy regularly and after major incidents, product changes, or regulatory shifts.</li>
+          </ol>
+        </div>
+        <div class="play-case">
+          <div class="play-case-inner play-case-inner-gov">
+            <div class="play-case-label play-case-label-gov">Case Study — Microsoft</div>
+            <p>Microsoft sets baseline transparency expectations through its <a href="https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/final/en-us/microsoft-brand/documents/Microsoft-Responsible-AI-Standard-General-Requirements.pdf" target="_blank">Responsible AI Standard</a><sup class="cite"><a href="#ref-45" id="citeref-45">[45]</a></sup>, which provides actionable requirements applying to all AI systems. It tailors transparency to different stakeholders through Transparency Notes — designed to help customers, developers, operators, and users understand how AI systems work and the deployment choices that shape behavior. Its Responsible AI Transparency Report describes how transparency is embedded across the AI lifecycle through structured governance and pre-deployment oversight.</p>
+          </div>
+        </div>
+        <div class="play-tools-section">
+          <div class="play-sub-title play-sub-title-gov">Tools &amp; Resources</div>
+          <ul>
+            <li><a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank">NIST AI Risk Management Framework</a><span class="tool-desc">Provides a structured approach to identifying, assessing, and managing AI risks. This is useful for defining baseline transparency requirements and tiering systems by risk level (steps 2 and 4).</span></li>
+            <li><a href="https://www.iso.org/standard/42001" target="_blank">ISO/IEC 42001 (AI Management System Standard)</a><span class="tool-desc">An international standard for AI governance that includes transparency and accountability requirements. This is useful for embedding transparency into organizational processes and governance structures (steps 6 and 7).</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Play 3 -->
+    <div class="play-card" id="play-3">
+      <div class="play-header play-header-gov">
+        <div class="play-number">03</div>
+        <div>
+          <h3>Establish policies and structures to operationalize transparency</h3>
+          <div class="play-who-tag">Who is involved: C-suite leaders, product and engineering leadership, legal and compliance teams, responsible AI leads</div>
+        </div>
+      </div>
+      <div class="play-about">
+        A transparency strategy defines the plan, but without clear policies, defined roles, and accountability structures, transparency remains aspirational.<sup class="cite"><a href="#ref-46" id="citeref-46">[46]</a></sup><sup class="cite"><a href="#ref-47" id="citeref-47">[47]</a></sup> This play is about building the organizational infrastructure that makes transparency enforceable and consistent. It covers who owns transparency decisions, what gets disclosed and when, how incidents are handled, and how compliance is monitored and reported. Without this infrastructure, transparency falls to individual judgment, leading to inconsistent communication, unclear accountability, and decisions made on the fly.
+      </div>
+      <div class="play-body">
+        <div class="play-col-left play-benefits">
+          <div class="play-sub-title play-sub-title-gov">Business Benefits</div>
+          <ul>
+            <li><span class="check">✓</span> Minimizes legal risk by defining reviewable oversight structures</li>
+            <li><span class="check">✓</span> Strengthens user trust through consistent, policy-driven communication of AI capabilities and limitations</li>
+            <li><span class="check">✓</span> Improves operational consistency by embedding accountability in concrete roles and policies</li>
+          </ul>
+        </div>
+        <div class="play-col-right play-how gov-how">
+          <div class="play-sub-title play-sub-title-gov">How</div>
+          <ol>
+            <li><span class="step-num">1</span><strong>Define clear ownership and oversight roles.</strong> Assign named accountability for disclosure decisions, model risk, and transparency performance across the organization. This may include dedicated roles embedded in business units (such as Responsible AI Champions) who serve as points of contact for transparency practices in their teams. Ensure every AI system has a designated owner responsible for keeping documentation, disclosures, and evaluations current.</li>
+            <li><span class="step-num">2</span><strong>Establish external disclosure standards.</strong> Define what gets communicated to users and under what conditions. Standardize this across products and teams so disclosure is consistent.</li>
+            <li><span class="step-num">3</span><strong>Implement AI labeling and content disclosure policies.</strong> Define when and how AI-generated content is labeled across products and channels, aligned with regulatory requirements and user expectations (see Box 2).</li>
+            <li><span class="step-num">4</span><strong>Create incident disclosure protocols.</strong> Establish clear processes for communicating failures, known issues, and fixes to relevant internal and external stakeholders, including timelines, responsible parties, and escalation pathways.</li>
+            <li><span class="step-num">5</span><strong>Establish auditable reporting structures.</strong> Define how transparency commitments are monitored, documented, and reported over time — internally to leadership and externally to regulators or the public where required.</li>
+            <li><span class="step-num">6</span><strong>Embed policies into existing processes.</strong> Integrate transparency policy requirements into product launch reviews, vendor selection, procurement, and periodic audits.</li>
+          </ol>
+        </div>
+        <div class="play-case">
+          <div class="play-case-inner play-case-inner-gov">
+            <div class="play-case-label play-case-label-gov">Case Study — IBM</div>
+            <p>IBM built organizational infrastructure for transparency. Recognizing that its principles (including transparency) alone are insufficient, IBM established the Responsible Technology Board. The board is a multidisciplinary group of leaders from across the company that provides centralized governance, review, and decision-making for ethics policies, practices, and products. The Board is supported by AI Ethics Focal Points (trained representatives embedded in business units who identify concerns, mitigate risks, and escalate issues when necessary) and a grassroots Advocacy Network that promotes ethics principles across teams. This structure illustrates how transparency policies move from strategy to practice with clear roles, pathways, and oversight.</p>
+          </div>
+        </div>
+        <div class="play-tools-section">
+          <div class="play-sub-title play-sub-title-gov">Tools &amp; Resources</div>
+          <ul>
+            <li><a href="https://msblogs.thesourcemediaassets.com/sites/5/2022/06/Microsoft-RAI-Impact-Assessment-Template.pdf" target="_blank">Microsoft Responsible AI Impact Assessment Template</a><span class="tool-desc">A publicly available template for evaluating AI systems against responsible AI principles. It includes dedicated transparency goals covering system intelligibility, stakeholder communication, and disclosure of AI interaction. Useful for organizations building structured disclosure standards and impact assessment processes into their governance infrastructure (steps 1, 2, and 3).</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Play 4 -->
+    <div class="play-card" id="play-4">
+      <div class="play-header play-header-gov">
+        <div class="play-number">04</div>
+        <div>
+          <h3>Build incentives and a culture that rewards transparency</h3>
+          <div class="play-who-tag">Who is involved: C-suite leaders, HR teams, product and engineering leadership, responsible AI leads, and employees across the organization</div>
+        </div>
+      </div>
+      <div class="play-about">
+        Transparency policies and strategies only work if the organizational culture supports them. Transparency must be a core commitment embedded in the company environment and structure, not a component added for compliance. This means building a culture where employees feel comfortable flagging issues, where responsible behavior is recognized and rewarded, and where people have the knowledge and skills to act on transparency expectations in their specific roles. Together, these practices lead to more sustainable long-term growth, improved trust, and AI systems that scale responsibly.
+      </div>
+      <div class="play-body">
+        <div class="play-col-left play-benefits">
+          <div class="play-sub-title play-sub-title-gov">Business Benefits</div>
+          <ul>
+            <li><span class="check">✓</span> Decreases downstream legal, regulatory, and reputational risk by surfacing issues and limitations early</li>
+            <li><span class="check">✓</span> Increases organizational resilience by ensuring performance incentives align with responsible decision-making</li>
+            <li><span class="check">✓</span> Improves cross-team communication, speed, accountability, and employee empowerment</li>
+            <li><span class="check">✓</span> Attracts and retains talent by signaling a strong commitment to responsible AI</li>
+          </ul>
+        </div>
+        <div class="play-col-right play-how gov-how">
+          <div class="play-sub-title play-sub-title-gov">How</div>
+          <ol>
+            <li><span class="step-num">1</span><strong>Embed transparency into performance incentives.</strong> Include proactive reporting and clear communication into performance and promotion evaluations to reward early risk flagging and transparency practices.</li>
+            <li><span class="step-num">2</span><strong>Establish clear reporting pathways.</strong> Create formal, normalized systems for reporting transparency issues, such as model risk reviews, red-teaming logs, and anonymous flagging channels.</li>
+            <li><span class="step-num">3</span><strong>Track, measure, and quantify transparency actions.</strong> Define quantifiable KPIs like team-wide review participation rates, number of issues resolved before launching, and minimum documentation requirements.</li>
+            <li><span class="step-num">4</span><strong>Invest in role-specific training.</strong> Ensure that those involved in building, deploying, and overseeing AI systems have the knowledge to fulfill their transparency responsibilities. Product teams should be able to explain system behavior, engineering teams should be able to surface limitations, and legal and policy teams should be able to manage disclosure obligations. Develop role-specific references and materials that can be used in training and day-to-day work.</li>
+            <li><span class="step-num">5</span><strong>Build ongoing learning.</strong> Integrate transparency and AI literacy into onboarding, regular team meetings, and leadership sessions.</li>
+            <li><span class="step-num">6</span><strong>Promote psychological safety.</strong> Train managers to respond constructively to pushback, conduct objective postmortems without blame, and protect employees who highlight model risks and concerns.</li>
+          </ol>
+        </div>
+        <div class="play-case">
+          <div class="play-case-inner play-case-inner-gov">
+            <div class="play-case-label play-case-label-gov">Case Study — Google &amp; Telefónica</div>
+            <p>Google illustrates two complementary aspects of building a transparency culture. Its Site Reliability Engineering (SRE) team is actively incentivizing transparency by standardizing a <a href="https://sre.google/sre-book/postmortem-culture/" target="_blank">blameless postmortem culture</a><sup class="cite"><a href="#ref-48" id="citeref-48">[48]</a></sup>. Instead of treating incidents as personal failures, they are opportunities for learning and growth. Integrating blameless reviews, formal documentation, and positive reinforcement into Google's operational culture allows the corporation to change failure reporting from a reputation damager to a rewarded action, making transparency a structural incentive. While this example comes from a large technology company, the underlying approach — separating issues from individuals, rewarding early disclosure, and normalizing constructive review — is adaptable for any organization deploying AI systems.</p>
+            <p style="margin-top:12px;">On the training side, Google invested in developing responsible AI education and training that reaches employees across diverse teams, technical backgrounds, and learning styles. Since 2019, over 32,000 employees have engaged with their AI training resources: interactive puzzles, quizzes, and games. They have built targeted programs for specific development and management teams, as well as broader courses such as its AI interpretability and transparency course for developers.<sup class="cite"><a href="#ref-49" id="citeref-49">[49]</a></sup></p>
+            <p style="margin-top:12px;">Telefónica embedded responsible AI into employee behavior through training and structured accountability. Since 2018 the company has built a layered approach: a company-wide AI ethics course, self-assessment questionnaires required of product managers for every new AI product or service, and a network of Responsible AI Champions embedded in each business unit.</p>
+          </div>
+        </div>
+        <div class="play-tools-section">
+          <div class="play-sub-title play-sub-title-gov">Tools &amp; Resources</div>
+          <ul>
+            <li><a href="https://sre.google/sre-book/example-postmortem/" target="_blank">Blameless Postmortem Framework (Google)</a><span class="tool-desc">Structured template and review process for conducting blameless postmortem assessments and reinforcing learning.</span></li>
+            <li><a href="https://learn.microsoft.com/en-us/training/modules/responsible-ai-studio/" target="_blank">Responsible Generative AI Module (Microsoft)</a><span class="tool-desc">Introduces the benefits and risks of generative AI solutions through a 50 minute module.</span></li>
+            <li><a href="https://www.navex.com/en-us/" target="_blank">NAVEX</a><span class="tool-desc">Confidential reporting system that allows employees to flag risks and violations without fear of negative repercussions.</span></li>
+            <li><a href="https://www.cultureamp.com/" target="_blank">Culture Amp</a><span class="tool-desc">Employee feedback and performance management tool that can help organizations track perceived psychological safety and integrate transparency into promotion structures.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Category B: Tools -->
+<div class="cat-header">
+  <div class="cat-banner cat-banner-tools">
+    <div class="cat-banner-num">B</div>
+    <div>
+      <h2>Transparency Tools &amp; Oversight Mechanisms</h2>
+      <p>Documentation, data practices, and evaluation processes that determine what information is available in the first place.</p>
+    </div>
+  </div>
+</div>
+<div class="plays-section">
+  <div class="plays-inner">
+
+    <!-- Play 5 -->
+    <div class="play-card" id="play-5">
+      <div class="play-header play-header-tools">
+        <div class="play-number">05</div>
+        <div>
+          <h3>Document AI systems at the right level: models for builders, systems for deployers</h3>
+          <div class="play-who-tag">Who is involved: Foundation model developers, product and engineering teams, responsible AI teams, compliance and risk leaders</div>
+        </div>
+      </div>
+      <div class="play-about">
+        Transparency requires documentation, but the type and level depends on your role. Foundation model developers should provide model-level documentation, such as model cards, detailing training conditions, intended use, evaluation results, and known limitations. Most organizations today are deployers, not model builders, who integrate foundation models into products, workflows, and services. In these cases, deployers must create system-level documentation that explains how the model is being used in context: its purpose, safeguards, output monitoring, and deployment risks. This distinction matters because organizations inherit the opacity and risk of the underlying foundation model. Even when model internals remain unclear, deployers remain responsible for documenting how their AI-enabled system behaves in practice.
+        <p style="margin-top:12px;">A well-designed system card should be the central transparency artifact<sup class="cite"><a href="#ref-50" id="citeref-50">[50]</a></sup>, capturing how the system works, its impacts, risks, and governance. System-level documentation should not be static or purely descriptive, but rather grounded in and reflective of ongoing evaluation, impact assessment, and accountability processes (see Play 8).</p>
+      </div>
+      <div class="play-body">
+        <div class="play-col-left play-benefits">
+          <div class="play-sub-title play-sub-title-tools">Business Benefits</div>
+          <ul>
+            <li><span class="check">✓</span> Builds trust and regulatory readiness by providing clear, credible documentation for customers, auditors, and internal stakeholders</li>
+            <li><span class="check">✓</span> Improves accountability and incident response by clarifying intended use, system limits, and escalation paths when failures occur</li>
+            <li><span class="check">✓</span> Reduces risk and enables safer scaling by surfacing limitations early and standardizing practices across deployments</li>
+          </ul>
+        </div>
+        <div class="play-col-right play-how tools-how">
+          <div class="play-sub-title play-sub-title-tools">How</div>
+          <ol>
+            <li><span class="step-num">1</span><strong>Start with the model documentation available.</strong> Gather any provider-issued transparency materials: model cards, safety reports, data policies, evaluation summaries, or system descriptions.</li>
+            <li><span class="step-num">2</span><strong>Conduct foundation model and vendor transparency due diligence.</strong> Document what is known and unknown about the foundation model you are adopting, such as:
+              <ul style="margin-top:8px;padding-left:20px;">
+                <li>Intended and prohibited use cases</li>
+                <li>Known failure modes and limitations</li>
+                <li>Safety mitigations and monitoring practices</li>
+                <li>Biases and performance discrepancies for different groups</li>
+                <li>Data governance and privacy policies</li>
+                <li>Available benchmarks, audits, or external assessments</li>
+              </ul>
+            </li>
+            <li><span class="step-num">3</span><strong>Create system-level documentation for your deployment.</strong> Develop a system card / factsheet that explains:
+              <ul style="margin-top:8px;padding-left:20px;">
+                <li>The purpose of the AI system</li>
+                <li>Who will be affected and served, and in what contexts</li>
+                <li>How model(s) is/are integrated (prompts, tools, workflows)</li>
+                <li>Key risks and limitations, including fairness/bias, safety, security, privacy, and reliability</li>
+                <li>Broader societal considerations, such as impacts on labor, organizational change, or environmental footprint where relevant</li>
+                <li>What safeguards, monitoring, and human oversight is in place</li>
+                <li>What transparency features are provided to users</li>
+                <li>What accountability, incident response, and recourse mechanisms exist when harms or failures occur</li>
+              </ul>
+            </li>
+            <li><span class="step-num">4</span><strong>Tailor documentation to stakeholder needs.</strong> Ensure documentation is usable across audiences: engineers monitoring and debugging failures, managers overseeing risk, users calibrating trust, and regulators evaluating compliance.</li>
+            <li><span class="step-num">5</span><strong>Consider openness and control, especially for higher-risk deployments.</strong> For systems being used for sensitive or higher-stakes contexts, consider using open or fully open source models.</li>
+            <li><span class="step-num">6</span><strong>Maintain documentation over time.</strong> Treat documentation as a living artifact. Update it as models change, systems are fine-tuned, workflows evolve, or new risks emerge.</li>
+          </ol>
+        </div>
+        <div class="play-case">
+          <div class="play-case-inner play-case-inner-tools">
+            <div class="play-case-label play-case-label-tools">Case Study — Anthropic &amp; Microsoft</div>
+            <p><a href="https://www.anthropic.com/transparency" target="_blank">Anthropic's Transparency Hub</a> provides condensed summaries for deployers and detailed reports for technical teams, accommodating stakeholders with varying backgrounds and interests. They publish model system cards that document capabilities, safeguards, benchmark assessments, and usage policies. Their developer documentation supports engineering and product teams in understanding system behavior, assessing tradeoffs, and monitoring outputs.</p>
+            <p style="margin-top:12px;">Microsoft's Transparency Notes (introduced in Play 2) offer another example: system-level documentation tailored to specific AI products and use cases, designed to help operators and users understand how systems behave and what their limitations are.</p>
+          </div>
+        </div>
+        <div class="play-tools-section">
+          <div class="play-sub-title play-sub-title-tools">Tools &amp; Resources</div>
+          <ul>
+            <li><a href="https://arxiv.org/abs/1810.03993" target="_blank">Model Cards for Model Reporting (Mitchell et al., 2019)</a><span class="tool-desc">The foundational paper introducing model cards as a documentation standard.</span></li>
+            <li><a href="https://research.google/blog/introducing-the-model-card-toolkit-for-easier-model-transparency-reporting/" target="_blank">Model Cards Toolkit (Google Research)</a><span class="tool-desc">Documentation framework for reporting model capabilities, limitations, intended use cases, and ethical considerations in a consistent format.</span></li>
+            <li><a href="https://www.ibm.com/products/ai-factsheets" target="_blank">AI FactSheets (IBM)</a><span class="tool-desc">A framework for documenting AI models and services through the lifecycle (covering intended use, performance, fairness considerations, and governance).</span></li>
+            <li><a href="https://www.anthropic.com/transparency" target="_blank">Transparency Hub (Anthropic)</a><span class="tool-desc">A publicly available resource demonstrating how system-level documentation can be structured and tailored to different audiences.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Play 6 -->
+    <div class="play-card" id="play-6">
+      <div class="play-header play-header-tools">
+        <div class="play-number">06</div>
+        <div>
+          <h3>Maintain transparency around training data and data governance</h3>
+          <div class="play-who-tag">Who is involved: Product teams, data and ML teams, legal and IP teams, compliance leaders, responsible AI practitioners, procurement</div>
+        </div>
+      </div>
+      <div class="play-about">
+        Transparency around training data and model inputs helps stakeholders understand how AI systems are created and how they operate. This includes documenting the types of data used to train models, where these datasets are sourced from, and what safeguards exist around copyright, intellectual property, and labor standards. Documenting data provenance helps users and regulators assess risks related to output, quality, bias and copyright, and help organizations make more defensible claims about their AI systems.
+        <p style="margin-top:12px;">Training data fundamentally shapes outputs, so organizations must go beyond high level claims and provide documentation such as datasheets or model cards (see Play 5) that explain data composition and its intended uses. This responsibility holds even when deploying third-party models<sup class="cite"><a href="#ref-52" id="citeref-52">[52]</a></sup><sup class="cite"><a href="#ref-53" id="citeref-53">[53]</a></sup>: organizations must clarify what they control and what vendors control, and document any fine-tuning practices that affect how the model behaves in their specific context.</p>
+      </div>
+      <div class="play-body">
+        <div class="play-col-left play-benefits">
+          <div class="play-sub-title play-sub-title-tools">Business Benefits</div>
+          <ul>
+            <li><span class="check">✓</span> Builds internal confidence in model behavior by identifying suitability for specific use cases</li>
+            <li><span class="check">✓</span> Improves customer adoption by building trust and clarifying limitations around copyright</li>
+            <li><span class="check">✓</span> Strengthens governance by formalizing ownership of training data and ensures quality assurance</li>
+            <li><span class="check">✓</span> Enables responsible scaling by standardizing documentation across AI systems</li>
+          </ul>
+        </div>
+        <div class="play-col-right play-how tools-how">
+          <div class="play-sub-title play-sub-title-tools">How</div>
+          <ol>
+            <li><span class="step-num">1</span><strong>Document training data sources and third-party roles.</strong> In documentation (e.g., datasheets, model cards), describe what type of data was used (e.g., licensed data, publicly available data, synthetic data) and its limitations. Where third-party or foundation models are used, document what is known about their training data and clearly communicate what the organization controls versus what the model provider controls.</li>
+            <li><span class="step-num">2</span><strong>Clarify copyright and IP position.</strong> Communicate the use of copyrighted material, licensing, and the exclusion of user or proprietary data.</li>
+            <li><span class="step-num">3</span><strong>Disclose fine-tuning practices.</strong> If the model has been fine-tuned for specific tasks or domains, document what additional data was used, how it was sourced, and how fine-tuning affects system behavior and limitations.</li>
+            <li><span class="step-num">4</span><strong>Require internal dataset governance reviews.</strong> Assess legal compliance, labor standards, and sourcing risks before use.</li>
+            <li><span class="step-num">5</span><strong>Document model and system updates.</strong> Establish documentation for when models change or new datasets are added.</li>
+          </ol>
+        </div>
+        <div class="play-case">
+          <div class="play-case-inner play-case-inner-tools">
+            <div class="play-case-label play-case-label-tools">Case Study — IBM Granite Models</div>
+            <p>IBM achieved the highest score on the Stanford University Foundation Model Transparency Index for its <a href="https://www.ibm.com/granite" target="_blank">Granite models</a>.<sup class="cite"><a href="#ref-54" id="citeref-54">[54]</a></sup><sup class="cite"><a href="#ref-55" id="citeref-55">[55]</a></sup> IBM distinguishes itself by publishing detailed model documentation outlining training data categories — including licensed and public datasets — while clearly stating the exclusion of scraped copyright content without permission. This transparency strengthens enterprise adoption by reducing uncertainty around copyright exposure and data misuse.</p>
+          </div>
+        </div>
+        <div class="play-tools-section">
+          <div class="play-sub-title play-sub-title-tools">Tools &amp; Resources</div>
+          <ul>
+            <li><a href="https://arxiv.org/abs/1803.09010" target="_blank">Datasheets for Datasets (Gebru et al., 2021)</a><span class="tool-desc">The foundational paper proposing a standardized documentation framework for datasets. The most widely cited dataset documentation standard and an essential reference for organizations documenting training data.</span></li>
+            <li><a href="https://aclanthology.org/Q18-1041/" target="_blank">Data Statements for NLP (Bender &amp; Friedman)</a><span class="tool-desc">A documentation standard that describes dataset demographics, linguistic sources, and annotation context. Particularly useful for language models where data provenance affects fairness and performance.</span></li>
+            <li><a href="http://datanutrition.media.mit.edu/abstract.pdf" target="_blank">Dataset Nutrition Labels (MIT Media Lab)</a><span class="tool-desc">A standardized dataset documentation framework covering provenance, variables, ethical risks, and statistical properties. Useful for communicating to non-technical stakeholders.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Play 7 -->
+    <div class="play-card" id="play-7">
+      <div class="play-header play-header-tools">
+        <div class="play-number">07</div>
+        <div>
+          <h3>Maintain transparency around user data, privacy, and personal data use</h3>
+          <div class="play-who-tag">Who is involved: Product teams, data teams, privacy and legal compliance teams or leaders, responsible AI practitioners</div>
+        </div>
+      </div>
+      <div class="play-about">
+        Transparency around data, inputs, and privacy ensures users and stakeholders understand what data is being collected and how it is being used — across the lifecycle of collection, processing, storage, and retention. Through clear transparency practices, users can better understand how their data is being used and protected, supporting trust and adoption. This can be achieved through product disclosures, consent flows, privacy notices, and explanations within the product. Deployers remain responsible for transparency even if they are using third party models: organizations must explain how data flows through their specific product, including both proprietary and third party pipelines.
+      </div>
+      <div class="play-body">
+        <div class="play-col-left play-benefits">
+          <div class="play-sub-title play-sub-title-tools">Business Benefits</div>
+          <ul>
+            <li><span class="check">✓</span> Improves user retention by clearly communicating how data and inputs are handled</li>
+            <li><span class="check">✓</span> Reduces legal and regulatory risk through proactive privacy disclosure</li>
+            <li><span class="check">✓</span> Strengthens governance by clarifying ownership of data flows and privacy controls</li>
+          </ul>
+        </div>
+        <div class="play-col-right play-how tools-how">
+          <div class="play-sub-title play-sub-title-tools">How</div>
+          <ol>
+            <li><span class="step-num">1</span><strong>Map data flows end-to-end.</strong> Document what user inputs are collected, where they go, how long they are retained, and who can access them.</li>
+            <li><span class="step-num">2</span><strong>Clarify input handling.</strong> Specify whether prompts or outputs are logged, reviewed by humans, used for training the model, or shared with third party vendors.</li>
+            <li><span class="step-num">3</span><strong>Provide clear user disclosures.</strong> Cover data practices in the form of privacy notices, onboarding screens, and in product explanations.</li>
+            <li><span class="step-num">4</span><strong>Enable user choice and control.</strong> Offer opt outs where possible and consent mechanisms. Define clear mechanisms including retention periods and making sure user data does not stay on servers longer than necessary.</li>
+            <li><span class="step-num">5</span><strong>Align privacy with product design.</strong> Implement data minimization and secure default controls.</li>
+            <li><span class="step-num">6</span><strong>Disclose third party data sharing.</strong> Clearly state if and how data is provided to data brokers or third parties (e.g., advertising, data brokers, law enforcement).</li>
+          </ol>
+        </div>
+        <div class="play-case">
+          <div class="play-case-inner play-case-inner-tools">
+            <div class="play-case-label play-case-label-tools">Case Study — Apple &amp; DuckDuckGo</div>
+            <p>Apple's Privacy Nutrition Labels require every app on the App Store (including Apple's) to disclose what data is collected, how it is used, whether it is linked to a user's identity, and whether it is used for tracking. Information is presented in standardized, easy-to-read formats on each app's product page so users have a clear summary of privacy practices before they download. Developers must also disclose data collected by third parties and partners integrated into their apps. Apple's App Tracking Transparency Framework also requires apps to obtain explicit user permission before tracking activity across other apps or websites.</p>
+            <p style="margin-top:12px;">DuckDuckGo builds transparency directly into its business model. Its privacy policy starts with: "We don't track you." The rest of the policy explains what data is briefly seen, how it is used, and why it is deleted. Its AI product, Duck.ai, extends this to AI interactions: model providers are called on users' behalf so personal information is not exposed to them, and DuckDuckGo has agreements in place with all model providers prohibiting them from using prompts and outputs to train their models.</p>
+          </div>
+        </div>
+        <div class="play-tools-section">
+          <div class="play-sub-title play-sub-title-tools">Tools &amp; Resources</div>
+          <ul>
+            <li><a href="https://gdpr.eu/data-protection-impact-assessment-template/" target="_blank">Data Protection Impact Assessments (EU General Data Protection Regulation (GDPR))</a><span class="tool-desc">Required under EU law for high-risk data processing. DPIAs document how personal data flows through systems and identify privacy risks, making them a useful starting framework for any organization mapping data flows (step 1).</span></li>
+            <li><a href="https://hub.transparency.berkmancenter.org/" target="_blank">Transparency Hub (Berkman Klein Center at Harvard)</a><span class="tool-desc">Gathers tech companies' legal and privacy policies over time, useful for benchmarking current disclosure practices against industry standards (step 3).</span></li>
+            <li><a href="https://mermaid.js.org/" target="_blank">Data flow mapping tools</a><span class="tool-desc">Engineering teams often use internal data flow diagrams or architecture mapping tools to document how inputs travel across services, APIs, and model providers. Examples include the open-source diagramming tool Mermaid, which allows engineers to generate architecture diagrams directly in documentation, as well as enterprise data lineage platforms such as Collibra that map data flows across services and vendors. Useful for step 1.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Play 8 -->
+    <div class="play-card" id="play-8">
+      <div class="play-header play-header-tools">
+        <div class="play-number">08</div>
+        <div>
+          <h3>Benchmark, evaluate, and monitor AI systems — based on your role</h3>
+          <div class="play-who-tag">Who is involved: Foundation model developers, product and engineering teams, responsible AI teams, compliance and risk leaders</div>
+        </div>
+      </div>
+      <div class="play-about">
+        System-level transparency and documentation (see Play 5) is only credible when grounded in ongoing evaluation, monitoring, and accountability practices. Benchmarks, audits, red-teaming, and impact assessments provide the operational backbone<sup class="cite"><a href="#ref-56" id="citeref-56">[56]</a></sup> that helps organizations understand how AI systems behave, where they fail, and what risks they introduce over time.
+        <p style="margin-top:12px;">The right approach depends on your role: foundation model developers should conduct and publish benchmarks to assess model capabilities, limitations, and safety measures over time; deployers should focus on context-specific evaluations, including testing how AI systems behave in their own products, workflows, and user environments, as well as assessing broader impacts. Evaluation processes should continuously inform system-level documentation, governance processes, and user-facing disclosures.</p>
+      </div>
+      <div class="play-body">
+        <div class="play-col-left play-benefits">
+          <div class="play-sub-title play-sub-title-tools">Business Benefits</div>
+          <ul>
+            <li><span class="check">✓</span> Improves trust and oversight by grounding transparency claims in ongoing testing and monitoring</li>
+            <li><span class="check">✓</span> Reduces operational and reputational risk by surfacing failures, biases, or unsafe behaviors before harm occurs</li>
+            <li><span class="check">✓</span> Strengthens accountability over time by ensuring systems remain governable as models, use cases, and environments evolve</li>
+          </ul>
+        </div>
+        <div class="play-col-right play-how tools-how">
+          <div class="play-sub-title play-sub-title-tools">How</div>
+          <ol>
+            <li><span class="step-num">1</span><strong>Clarify your evaluation responsibility.</strong> Foundation model developers should publish benchmarks for foundation models, while deployers should evaluate and assess the impact of AI systems built on external models.</li>
+            <li><span class="step-num">2</span><strong>If developing foundation models: conduct and publish benchmarks.</strong> This includes information on model capability and task performance; reliability and robustness; known limitations, risks, and failure modes; and safety-related behaviors. Be explicit about what benchmarks do and do not measure, recognizing that many benchmarks are limited in capturing impacts across wide ranges of people and do not report on key aspects of trustworthiness such as bias.</li>
+            <li><span class="step-num">3</span><strong>If deploying AI systems: conduct evaluations.</strong> Test how the system behaves in your real workflows, including: stress tests and edge-case scenarios, red-teaming and adversarial testing, domain-specific failure analysis, performance across diverse user groups and contexts.</li>
+            <li><span class="step-num">4</span><strong>Incorporate impact assessments where risks are high.</strong> For sensitive or high-stakes deployments, pair technical evaluations with structured impact analysis, including: potential harms and affected stakeholders, bias and fairness risks, organizational and societal consequences, and mitigation and oversight plans.</li>
+            <li><span class="step-num">5</span><strong>Monitor systems continuously after deployment.</strong> Establish ongoing practices such as: incident tracking, performance monitoring, feedback loops from users, and regular evaluations.</li>
+            <li><span class="step-num">6</span><strong>Ensure evaluations feed back into transparency documentation and disclosure.</strong>
+              <ul style="margin-top:8px;padding-left:20px;">
+                <li>For foundation model developers: Integrate benchmarks within model cards.</li>
+                <li>For deployers: Integrate evaluations and impact assessments within system cards, as well as other governance processes like acceptable use or additional safeguards required. Ensure that evaluation and assessment results inform product review or vendor oversight processes.</li>
+              </ul>
+            </li>
+          </ol>
+        </div>
+        <div class="play-case">
+          <div class="play-case-inner play-case-inner-tools">
+            <div class="play-case-label play-case-label-tools">Case Study — Meta</div>
+            <p><a href="https://ai.meta.com/blog/meta-llama-3-1-ai-responsibility/" target="_blank">Meta</a> actively maintains the security of its open-source AI models through ongoing evaluations. The company conducts human and AI-enabled red-teaming exercises<sup class="cite"><a href="#ref-57" id="citeref-57">[57]</a></sup> with internal and external experts across disciplines, languages, and geographic concerns. Recurring tests — such as adversarial prompting — help identify vulnerabilities, unexpected use cases, and inform changes to benchmarks and fine-tuning datasets. Meta also enhances model safety and performance through reinforcement learning guided by human feedback. It uses a variety of data processing techniques to ensure high-quality training datasets.</p>
+            <p style="margin-top:12px;">This example reflects the developer side of the role-based framework above. For deploying organizations, the equivalent practice is context-specific evaluation.</p>
+          </div>
+        </div>
+        <div class="play-tools-section">
+          <div class="play-sub-title play-sub-title-tools">Tools &amp; Resources</div>
+          <ul>
+            <li><a href="https://mlcommons.org/benchmarks/" target="_blank">MLCommons Benchmarks</a><span class="tool-desc">Standardized, open-source tests that measure and compare the performance, quality, and safety of AI systems.</span></li>
+            <li><a href="https://huggingface.co/docs/evaluate/en/index" target="_blank">Hugging Face Evaluation Hub</a><span class="tool-desc">Open-source library with standardized tools, metrics, and rankings to evaluate machine learning models and datasets across domains.</span></li>
+            <li><a href="https://atlas.mitre.org/" target="_blank">MITRE ATLAS</a><span class="tool-desc">Provides a structured framework of AI attacks and techniques to help teams test, assess, and secure AI systems.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Category C: Deployment -->
+<div class="cat-header">
+  <div class="cat-banner cat-banner-deploy">
+    <div class="cat-banner-num">C</div>
+    <div>
+      <h2>Transparency in Deployment &amp; User Interactions</h2>
+      <p>What users see, how they experience AI outputs, and what recourse they have when things go wrong.</p>
+    </div>
+  </div>
+</div>
+<div class="plays-section">
+  <div class="plays-inner">
+
+    <!-- Play 9 -->
+    <div class="play-card" id="play-9">
+      <div class="play-header play-header-deploy">
+        <div class="play-number">09</div>
+        <div>
+          <h3>Design transparency in AI outputs and user interactions</h3>
+          <div class="play-who-tag">Who is involved: Product managers, UX and design teams, engineering teams, responsible AI leads, customer support teams, and end users</div>
+        </div>
+      </div>
+      <div class="play-about">
+        User-facing transparency helps people understand and interpret outputs, calibrate trust, and decide when and how to rely on AI systems. This can include AI labels, explanations, confidence ratings, guidance on appropriate use, and citations. User-facing transparency is not one-size-fits-all. Providing too little information can lead to misunderstandings and misplaced trust, while too much or poorly presented information can overwhelm or confuse users. Research suggests more transparency generally enhances trust in the AI, perceived reliability of its recommendations, confidence in its accuracy, and ease of understanding the output. However, these effects vary by context: higher transparency boosted understanding in finance settings but caused confusion in healthcare settings.<sup class="cite"><a href="#ref-58" id="citeref-58">[58]</a></sup><sup class="cite"><a href="#ref-59" id="citeref-59">[59]</a></sup>
+        <p style="margin-top:12px;">At a base level, users should know when they are interacting with AI or if content was created by genAI. They should also know the system's intended and unintended purposes. Explanations, citations and confidence scores should be the norm in many applications, especially in contexts where users may act on outputs or where errors could cause harm.</p>
+      </div>
+      <div class="play-body">
+        <div class="play-col-left play-benefits">
+          <div class="play-sub-title play-sub-title-deploy">Business Benefits</div>
+          <ul>
+            <li><span class="check">✓</span> Builds user trust and adoption by helping people understand and appropriately rely on outputs</li>
+            <li><span class="check">✓</span> Reduces misuse and liability risk by setting clear expectations, limits, and uncertainty in sensitive contexts</li>
+            <li><span class="check">✓</span> Improves product quality and differentiation</li>
+          </ul>
+        </div>
+        <div class="play-col-right play-how deploy-how">
+          <div class="play-sub-title play-sub-title-deploy">How</div>
+          <ol>
+            <li><span class="step-num">1</span><strong>Establish a baseline of user-facing transparency.</strong> Ensure every deployment clearly communicates: When AI is being used (e.g., AI disclosure) and what the system is for and should not be used for. For image generation systems, disclosure also means AI watermarks. For content generation systems, this also includes AI labeling and watermarking where appropriate (see Box 2 on disclosure standards).</li>
+            <li><span class="step-num">2</span><strong>Add "receipts," not just answers.</strong> Provide supporting context such as citations or links to sources. Transparency about sources can improve user evaluation and reduce overload when implemented thoughtfully.</li>
+            <li><span class="step-num">3</span><strong>Communicate uncertainty where users may act on outputs,</strong> such as through confidence scores or indicators. This is particularly important in high-risk domains or deployments.</li>
+            <li><span class="step-num">4</span><strong>Design explanations for usability, considering deployment risk level.</strong> Provide transparency by design, whereby transparency is meant to clearly respond to the needs of users. This can include simple rationales and layered explanations if desired. In high-stakes contexts (e.g., health, finance, employment), provide more thorough explanations tied to confidence scores.<sup class="cite"><a href="#ref-60" id="citeref-60">[60]</a></sup></li>
+            <li><span class="step-num">5</span><strong>Test transparency features with target users.</strong> Use UX research to assess different features and approaches to ensure that transparency approaches are meeting user needs without causing overwhelm. Update user-facing features as the system / tool changes or risks emerge.</li>
+          </ol>
+        </div>
+        <div class="play-case">
+          <div class="play-case-inner play-case-inner-deploy">
+            <div class="play-case-label play-case-label-deploy">Case Study — Adobe</div>
+            <p><a href="https://research.adobe.com/news/empowering-artists-with-content-credentials/" target="_blank">Adobe Research</a><sup class="cite"><a href="#ref-61" id="citeref-61">[61]</a></sup> is developing tools to increase transparency and build trust between creators and viewers by helping detect AI generated content like images and videos. Their Content Credentials tool allows creators to attach brief metadata to images that explain how they were created, which viewers can access with a simple click. This protects creative ownership and ensures the authenticity of artists' work. Additionally, Adobe's Content Credential Browser Plug-In allows users to view these credentials on websites and social media platforms where metadata isn't embedded directly, extending transparency beyond Adobe's own tools.</p>
+          </div>
+        </div>
+        <div class="play-tools-section">
+          <div class="play-sub-title play-sub-title-deploy">Tools &amp; Resources</div>
+          <ul>
+            <li><a href="https://dataresponsibly.github.io/algorithmic-transparency-playbook/technical-guide/" target="_blank">Algorithmic Transparency Playbook (Technical Guide)</a><span class="tool-desc">Provides overview of intrinsic, post-hoc, SHAP, counterfactual, and other explanation approaches that can be used for user-facing transparency.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Play 10 -->
+    <div class="play-card" id="play-10">
+      <div class="play-header play-header-deploy">
+        <div class="play-number">10</div>
+        <div>
+          <h3>Provide accountability and recourse mechanisms</h3>
+          <div class="play-who-tag">Who is involved: C-Suite leaders, product and engineering leadership, responsible AI leads, legal and compliance leads, risk and audit teams, trust and safety teams, HR, and communications</div>
+        </div>
+      </div>
+      <div class="play-about">
+        Transparency is meaningful only when it is paired with accountability.<sup class="cite"><a href="#ref-62" id="citeref-62">[62]</a></sup><sup class="cite"><a href="#ref-63" id="citeref-63">[63]</a></sup><sup class="cite"><a href="#ref-64" id="citeref-64">[64]</a></sup> Accountability and recourse must be integrated in governance, policies, and easily accessible through user-facing design. Providing accountability and recourse mechanisms ensures that users have support while navigating opaque systems. They must be able to question outputs and report harm. Organizations must internally have defined escalation paths, response processes, and clear ownership when such situations arise so that their stakeholders see the value of raising concerns and calling for improvement. This includes structured triage processes and cross-team review along with human review and potential reversing of algorithmic outcomes in higher stakes contexts.
+      </div>
+      <div class="play-body">
+        <div class="play-col-left play-benefits">
+          <div class="play-sub-title play-sub-title-deploy">Business Benefits</div>
+          <ul>
+            <li><span class="check">✓</span> Reduces legal and regulatory consequences by demonstrating due diligence</li>
+            <li><span class="check">✓</span> Improves product quality through structured feedback and incident tracking, fostering trust and long-term adoption</li>
+            <li><span class="check">✓</span> Reinforces other transparency processes by demonstrating real attention and engagement by organizational leadership</li>
+          </ul>
+        </div>
+        <div class="play-col-right play-how deploy-how">
+          <div class="play-sub-title play-sub-title-deploy">How</div>
+          <ol>
+            <li><span class="step-num">1</span><strong>Define clear escalation pathways.</strong> Establish documented internal reporting channels. This can include outlining severity tiers, response timelines, and decision-making authority.</li>
+            <li><span class="step-num">2</span><strong>Create accessible user feedback and reporting channels.</strong> Provide reporting tools within the product, structured forms, and contact information on how users can challenge outputs.</li>
+            <li><span class="step-num">3</span><strong>Operationalize incident response.</strong> Track all incidents in a centralized system and identify where the failures came from. Feed findings back into evaluation practices (Play 8) and documentation updates (Plays 6–7). Require reporting of significant incidents to leadership as part of standard protocol.</li>
+            <li><span class="step-num">4</span><strong>Define remediation pathways.</strong> Enable human review, appeals processes, or reversibility of automated outcomes if possible. Human oversight is key, especially in high risk contexts.</li>
+            <li><span class="step-num">5</span><strong>Continuously update policies and employee training.</strong> As model risks evolve in the rapidly changing AI landscape, ensure recourse mechanisms are accessible and usable with the requirement of reporting significant incidents to leadership.</li>
+            <li><span class="step-num">6</span><strong>Reward responsible reporting.</strong> Embed incentives for internal and external reporting into organizational culture and performance structures (see Play 4), reinforcing accountability as a shared responsibility.</li>
+          </ol>
+        </div>
+        <div class="play-case">
+          <div class="play-case-inner play-case-inner-deploy">
+            <div class="play-case-label play-case-label-deploy">Case Study — Apple Card (a cautionary tale)</div>
+            <p>The importance of accountability and recourse is illustrated by what happens when they are absent. The Apple Card controversy is an example of failure to follow Play 10. After public allegations that women were receiving significantly lower credit limits than men in similar positions, users reported difficulty obtaining clear rationale. There was no structured appeals interface within the product experience that allowed users to formally challenge outcomes. Recourse relied on traditional customer service channels, which are not well suited for algorithmic disputes. Due to a high profile complaint on social media, the <a href="https://www.dfs.ny.gov/system/files/documents/2021/03/rpt_202103_apple_card_investigation.pdf" target="_blank">New York Department of Financial Services</a> began an investigation.<sup class="cite"><a href="#ref-67" id="citeref-67">[67]</a></sup> The absence of clearly communicated escalation pathways and human review override visibility contributed to significant damage.</p>
+          </div>
+        </div>
+        <div class="play-tools-section">
+          <div class="play-sub-title play-sub-title-deploy">Tools &amp; Resources</div>
+          <ul>
+            <li><a href="https://incidentdatabase.ai/" target="_blank">AI Incident Reporting Database</a><span class="tool-desc">The AI Incident Database models publicly known incidents of harm caused by AI systems and can provide both a model for documenting and analyzing AI failures and harms as well as a useful resource for raising awareness of the types of harms possible.</span></li>
+            <li><a href="https://www.ombudsassociation.org" target="_blank">Ombudsperson or independent oversight roles</a><span class="tool-desc">Some organizations establish internal accountability roles modeled after corporate ombuds programs promoted by the International Ombuds Association.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== CALL TO ACTION ===== -->
+<section class="cta-section" id="cta">
+  <div class="cta-inner">
+    <h2>Start with One Play and Build From There</h2>
+    <p>Maya, the product lead we met at the start of this playbook, faced the crisis head on. After the client's AI system gave a confident but wrong answer with no explanation and no recourse, she and her organization took action: they established transparency as a leadership principle, built internal governance structures, set clear disclosure standards, documented system limitations, built user-facing explanations into their products, and created pathways for clients to raise concerns. The result was renewed client trust, greater confidence in their systems, and a stronger foundation for growth.</p>
+    <p>Meaningful transparency is not a single feature or checkbox. It is a combination of leadership commitment, organizational infrastructure, documentation practices, evaluation processes, and user-facing design. Each layer reinforces the other.</p>
+    <p>This is not simply compliance: Transparency is central to trust. As standards continue to evolve, those who see transparency as a strategic investment and take action now, will get ahead and stay ahead.</p>
+    <p style="margin-top:32px;font-size:15px;opacity:0.6;font-style:italic;">Generative AI tools were used in the creation of this playbook for brainstorming ideas, including cases and resources. All information included was fact-checked and errors are the fault of the researchers.</p>
+  </div>
+</section>
+
+<!-- ===== APPENDIX ===== -->
+<section class="chapter-break" id="appendix">
+  <div class="chapter-numeral">App</div>
+  <div class="chapter-break-inner">
+    <div class="chapter-text">
+      <div class="chapter-eyebrow">Appendix</div>
+      <h2 class="chapter-name">AI Transparency <span>Tool Comparison</span></h2>
+      <p class="chapter-desc">A summary of key transparency tools and the dimensions they address across affected stakeholders, integration, risks, user transparency, accountability, and societal impacts.</p>
+    </div>
+  </div>
+</section>
+<div class="geo-banner"></div>
+<section class="section" id="appendix-body">
+  <div class="section-wide">
+    <div class="appendix-wrap">
+      <table class="appendix-table" aria-label="AI transparency tools comparison">
+        <thead>
+          <tr>
+            <th scope="col">Tool / Artifact</th>
+            <th scope="col">Affected Stakeholders</th>
+            <th scope="col">Integration &amp; Workflows</th>
+            <th scope="col">Risks &amp; Limits</th>
+            <th scope="col">Safeguards</th>
+            <th scope="col">User Transparency</th>
+            <th scope="col">Accountability</th>
+            <th scope="col">Societal Impacts</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>System Cards</td>
+            <td><span class="tag-strong">Strong</span></td>
+            <td><span class="tag-strong">Strong</span></td>
+            <td><span class="tag-strong">Strong</span></td>
+            <td><span class="tag-strong">Strong</span></td>
+            <td><span class="tag-partial">Partial</span></td>
+            <td><span class="tag-partial">Partial</span></td>
+            <td><span class="tag-partial">Partial</span></td>
+          </tr>
+          <tr>
+            <td>Model Cards</td>
+            <td><span class="tag-partial">Partial</span></td>
+            <td><span class="tag-partial">Partial</span></td>
+            <td><span class="tag-strong">Strong</span></td>
+            <td><span class="tag-strong">Strong</span></td>
+            <td><span class="tag-rare">Rare</span></td>
+            <td><span class="tag-partial">Partial</span></td>
+            <td><span class="tag-partial">Partial</span></td>
+          </tr>
+          <tr>
+            <td>AI FactSheets / Service Documentation</td>
+            <td><span class="tag-partial">Partial</span></td>
+            <td><span class="tag-strong">Strong</span></td>
+            <td><span class="tag-strong">Strong</span></td>
+            <td><span class="tag-partial">Partial</span></td>
+            <td><span class="tag-partial">Partial</span></td>
+            <td><span class="tag-partial">Partial</span></td>
+            <td><span class="tag-rare">Rare</span></td>
+          </tr>
+          <tr>
+            <td>Algorithmic Impact Assessments</td>
+            <td><span class="tag-strong">Strong</span></td>
+            <td><span class="tag-partial">Partial</span></td>
+            <td><span class="tag-strong">Strong</span></td>
+            <td><span class="tag-strong">Strong</span></td>
+            <td><span class="tag-partial">Partial</span></td>
+            <td><span class="tag-strong">Strong</span></td>
+            <td><span class="tag-strong">Strong</span></td>
+          </tr>
+          <tr>
+            <td>Risk &amp; Safety Case Documentation</td>
+            <td><span class="tag-partial">Partial</span></td>
+            <td><span class="tag-partial">Partial</span></td>
+            <td><span class="tag-strong">Strong</span></td>
+            <td><span class="tag-strong">Strong</span></td>
+            <td><span class="tag-rare">Rare</span></td>
+            <td><span class="tag-partial">Partial</span></td>
+            <td><span class="tag-partial">Partial</span></td>
+          </tr>
+          <tr>
+            <td>System Architecture + Guardrail Docs</td>
+            <td><span class="tag-rare">Rare</span></td>
+            <td><span class="tag-strong">Strong</span></td>
+            <td><span class="tag-strong">Strong</span></td>
+            <td><span class="tag-strong">Strong</span></td>
+            <td><span class="tag-rare">Rare</span></td>
+            <td><span class="tag-partial">Partial</span></td>
+            <td><span class="tag-rare">Rare</span></td>
+          </tr>
+          <tr>
+            <td>Transparency / Disclosure Reports (OECD)</td>
+            <td><span class="tag-strong">Strong</span></td>
+            <td><span class="tag-partial">Partial</span></td>
+            <td><span class="tag-partial">Partial</span></td>
+            <td><span class="tag-partial">Partial</span></td>
+            <td><span class="tag-partial">Partial</span></td>
+            <td><span class="tag-strong">Strong</span></td>
+            <td><span class="tag-strong">Strong</span></td>
+          </tr>
+          <tr>
+            <td>Incident Reporting + Post-Deployment Docs</td>
+            <td><span class="tag-partial">Partial</span></td>
+            <td><span class="tag-strong">Strong</span></td>
+            <td><span class="tag-strong">Strong</span></td>
+            <td><span class="tag-partial">Partial</span></td>
+            <td><span class="tag-rare">Rare</span></td>
+            <td><span class="tag-strong">Strong</span></td>
+            <td><span class="tag-partial">Partial</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div>Transparency in Generative AI Systems: A Playbook</div>
+  <div style="margin-top:8px;">Developed by the Responsible AI Initiative · UC Berkeley AI Research Lab with Berkeley Haas · April 2026</div>
+  <div style="margin-top:4px;">Authored by Genevieve Smith and Natalia Luka · Supported by Google</div>
+</footer>
+
+
+<!-- ===== REFERENCES ===== -->
+<section class="section section-alt" id="references">
+  <div class="section-inner">
+    <div class="section-label">Endnotes</div>
+    <h3 class="section-title">References</h3>
+    <ol class="endnotes-list">
+<li id="ref-1"><span class="ref-num">[1]</span> BBC. (2019). "Apple's 'sexist' credit card investigated by US regulator." BBC News. <a href="https://www.bbc.com/news/business-50365609" target="_blank">https://www.bbc.com/news/business-50365609</a></li>
+<li id="ref-2"><span class="ref-num">[2]</span> New York State Department of Financial Services. (2021, March). Report on Apple Card Investigation. <a href="https://www.dfs.ny.gov/system/files/documents/2021/03/rpt_202103_apple_card_investigation.pdf" target="_blank">https://www.dfs.ny.gov/system/files/documents/2021/03/rpt_202103_apple_card_investigation.pdf</a></li>
+<li id="ref-3"><span class="ref-num">[3]</span> Jobin, A., Ienca, M., &amp; Vayena, E. (2019). "Artificial Intelligence: the global landscape of ethics guidelines." Nature Machine Intelligence. <a href="https://www.nature.com/articles/s42256-019-0088-2" target="_blank">https://www.nature.com/articles/s42256-019-0088-2</a></li>
+<li id="ref-4"><span class="ref-num">[4]</span> Schmidt, P., Biessmann, F., &amp; Teubner, T. (2020). Transparency and trust in artificial intelligence systems. Amazon Science. <a href="https://www.amazon.science/publications/transparency-and-trust-in-artificial-intelligence-systems" target="_blank">https://www.amazon.science/publications/transparency-and-trust-in-artificial-intelligence-systems</a></li>
+<li id="ref-5"><span class="ref-num">[5]</span> Felzmann, H., Fosch-Villaronga, E., Lutz, C., &amp; Tamò-Larrieux, A. (2020). Towards transparency by design for artificial intelligence. Science and Engineering Ethics, 26(6), 3333–3361. <a href="https://doi.org/10.1007/s11948-020-00276-4" target="_blank">https://doi.org/10.1007/s11948-020-00276-4</a></li>
+<li id="ref-6"><span class="ref-num">[6]</span> Felzmann et al, 2020</li>
+<li id="ref-7"><span class="ref-num">[7]</span> Weller, A. (2019). Transparency: Motivations and challenges. In Explainable AI: Interpreting, explaining and visualizing deep learning. Springer, Cham.</li>
+<li id="ref-8"><span class="ref-num">[8]</span> Wan, et al. (2025). The 2025 Foundation Model Transparency Index. Stanford University Center for Research on Foundation Models. <a href="https://crfm.stanford.edu/fmti/December-2025/paper.pdf" target="_blank">https://crfm.stanford.edu/fmti/December-2025/paper.pdf</a></li>
+<li id="ref-9"><span class="ref-num">[9]</span> Anthropic. (2024). "Mapping the Mind of a Large Language Model." <a href="https://www.anthropic.com/research/mapping-mind-language-model" target="_blank">https://www.anthropic.com/research/mapping-mind-language-model</a></li>
+<li id="ref-10"><span class="ref-num">[10]</span> Zhao, H., et al. (2024). Explainability for Large Language Models: A Survey. ACM Trans. Intell. Syst. Technol.</li>
+<li id="ref-11"><span class="ref-num">[11]</span> Marshall, C. (2025, August 7). "What is AI transparency? A comprehensive guide." Zendesk Blog. <a href="https://www.zendesk.com/in/blog/ai-transparency/" target="_blank">https://www.zendesk.com/in/blog/ai-transparency/</a></li>
+<li id="ref-12"><span class="ref-num">[12]</span> Park, K., &amp; Yoon, H. Y. (2025). AI algorithm transparency, pipelines for trust not prisms. Humanities and Social Sciences Communications.</li>
+<li id="ref-13"><span class="ref-num">[13]</span> PwC. (2024, March 12). "PwC's 2024 Trust Survey: 8 key findings." <a href="https://www.pwc.com/us/en/library/trust-in-business-survey.html" target="_blank">https://www.pwc.com/us/en/library/trust-in-business-survey.html</a></li>
+<li id="ref-14"><span class="ref-num">[14]</span> Friede, G., Busch, T., &amp; Bassen, A. (2015). ESG and financial performance. Journal of Sustainable Finance &amp; Investment, 5(4).</li>
+<li id="ref-15"><span class="ref-num">[15]</span> Canadian Marketing Association. (2025, June). The AI transparency advantage: Building trust through disclosure.</li>
+<li id="ref-16"><span class="ref-num">[16]</span> Haque, MD R., et al. "Are we asking the right questions?: Designing for community stakeholders' interactions with AI in policing." CHI 2022.</li>
+<li id="ref-17"><span class="ref-num">[17]</span> Kung, F. (2025). Workers Participating in Transparency. Partnership on AI. <a href="https://partnershiponai.org/resource/workers-participating-in-transparency/" target="_blank">https://partnershiponai.org/resource/workers-participating-in-transparency/</a></li>
+<li id="ref-18"><span class="ref-num">[18]</span> OECD Hiroshima AI Process Reporting Framework. <a href="https://transparency.oecd.ai/reports" target="_blank">https://transparency.oecd.ai/reports</a></li>
+<li id="ref-19"><span class="ref-num">[19]</span> European Commission. (2025). Code of Practice on marking and labelling of AI generated content. <a href="https://digital-strategy.ec.europa.eu/en/policies/code-practice-ai-generated-content" target="_blank">https://digital-strategy.ec.europa.eu/en/policies/code-practice-ai-generated-content</a></li>
+<li id="ref-20"><span class="ref-num">[20]</span> Felzmann et al, 2020</li>
+<li id="ref-21"><span class="ref-num">[21]</span> von Eschenbach, W. (2021). Transparency and the Black Box Problem. Philosophy &amp; Technology, 34: 1607–1622. <a href="https://doi.org/10.1007/s13347-021-00477-0" target="_blank">https://doi.org/10.1007/s13347-021-00477-0</a></li>
+<li id="ref-22"><span class="ref-num">[22]</span> Saeed, W., &amp; Omlin, C. (2023). Explainable AI (XAI): A systematic meta-survey. Expert Systems with Applications, 213, 118912. <a href="https://doi.org/10.1016/j.eswa.2022.118912" target="_blank">https://doi.org/10.1016/j.eswa.2022.118912</a></li>
+<li id="ref-23"><span class="ref-num">[23]</span> Saeed &amp; Omlin, 2023</li>
+<li id="ref-24"><span class="ref-num">[24]</span> Saeed &amp; Omlin, 2023</li>
+<li id="ref-25"><span class="ref-num">[25]</span> Lemley, M. (2024). How Generative AI Turns Copyright Law Upside Down. Science and Technology Law Review, 25(2). <a href="https://doi.org/10.52214/stlr.v25i2.12761" target="_blank">https://doi.org/10.52214/stlr.v25i2.12761</a></li>
+<li id="ref-26"><span class="ref-num">[26]</span> Felzmann et al, 2020</li>
+<li id="ref-27"><span class="ref-num">[27]</span> Saeed &amp; Omlin, 2023</li>
+<li id="ref-28"><span class="ref-num">[28]</span> Weller, 2019</li>
+<li id="ref-29"><span class="ref-num">[29]</span> Kiseleva, A., Kotzinos, D., &amp; De Hert, P. (2022). Transparency of AI in healthcare as a multilayered system of accountabilities. AI and Ethics.</li>
+<li id="ref-30"><span class="ref-num">[30]</span> European Commission. (2026, January). "AI Act." <a href="https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai" target="_blank">https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai</a></li>
+<li id="ref-31"><span class="ref-num">[31]</span> EU AI Act. (2025, July 30). "Overview of Guidelines for GPAI Models." <a href="https://artificialintelligenceact.eu/gpai-guidelines-overview/" target="_blank">https://artificialintelligenceact.eu/gpai-guidelines-overview/</a></li>
+<li id="ref-32"><span class="ref-num">[32]</span> SB 53. (2025). Artificial intelligence models: large developers. 2025–2026 Leg., Reg. Sess. <a href="https://legiscan.com/CA/text/SB53/id/3270002" target="_blank">https://legiscan.com/CA/text/SB53/id/3270002</a></li>
+<li id="ref-33"><span class="ref-num">[33]</span> AB 2013. (2024). Artificial intelligence: training data transparency, 2023–2024 Leg., Reg. Sess. <a href="https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202320240AB2013" target="_blank">https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202320240AB2013</a></li>
+<li id="ref-34"><span class="ref-num">[34]</span> Infocomm Media Development Authority. (2024). Model AI Governance Framework for Generative AI. <a href="https://aiverifyfoundation.sg/wp-content/uploads/2024/05/Model-AI-Governance-Framework-for-Generative-AI-May-2024.pdf" target="_blank">https://aiverifyfoundation.sg/wp-content/uploads/2024/05/Model-AI-Governance-Framework-for-Generative-AI-May-2024.pdf</a></li>
+<li id="ref-35"><span class="ref-num">[35]</span> SB 24-205. (2024). Consumer protections for artificial intelligence. Colorado General Assembly. <a href="https://leg.colorado.gov/bills/sb24-205" target="_blank">https://leg.colorado.gov/bills/sb24-205</a></li>
+<li id="ref-36"><span class="ref-num">[36]</span> Lucaj, L., et al. (2025). TechOps: Technical documentation templates for the AI Act. arXiv. <a href="https://doi.org/10.48550/arXiv.2508.08804" target="_blank">https://doi.org/10.48550/arXiv.2508.08804</a></li>
+<li id="ref-37"><span class="ref-num">[37]</span> Regulation (EU) 2024/1689 (EU AI Act), Article 50: Transparency obligations.</li>
+<li id="ref-38"><span class="ref-num">[38]</span> China Law Translate. (2025, March 14). Measures for the labeling of AI-generated and synthetic content. <a href="https://www.chinalawtranslate.com/en/ai-labeling/" target="_blank">https://www.chinalawtranslate.com/en/ai-labeling/</a></li>
+<li id="ref-39"><span class="ref-num">[39]</span> Kye, E., &amp; Stauss, D. (2025). California AI Transparency Act Amendments Signed Into Law. Troutman Pepper Locke. <a href="https://www.troutmanprivacy.com/2025/10/california-ai-transparency-act-amendments-signed-into-law/" target="_blank">https://www.troutmanprivacy.com/2025/10/california-ai-transparency-act-amendments-signed-into-law/</a></li>
+<li id="ref-40"><span class="ref-num">[40]</span> Ministry of Electronics and Information Technology of India. (2025). India AI Governance Guidelines. <a href="https://static.pib.gov.in/WriteReadData/specificdocs/documents/2025/nov/doc2025115685601.pdf" target="_blank">https://static.pib.gov.in/WriteReadData/specificdocs/documents/2025/nov/doc2025115685601.pdf</a></li>
+<li id="ref-41"><span class="ref-num">[41]</span> Department for Science, Innovation and Technology. (2023). A pro-innovation approach to AI regulation (Command Paper 815). UK Government. <a href="https://www.gov.uk/government/publications/ai-regulation-a-pro-innovation-approach" target="_blank">https://www.gov.uk/government/publications/ai-regulation-a-pro-innovation-approach</a></li>
+<li id="ref-42"><span class="ref-num">[42]</span> Organisation for Economic Co-operation and Development. (2024). AI principles. <a href="https://www.oecd.org/en/topics/sub-issues/ai-principles.html" target="_blank">https://www.oecd.org/en/topics/sub-issues/ai-principles.html</a></li>
+<li id="ref-43"><span class="ref-num">[43]</span> Walmsley, J. (2020). Artificial intelligence and the value of transparency. AI &amp; Society, 35(4), 961–972. <a href="https://doi.org/10.1007/s00146-020-01066-z" target="_blank">https://doi.org/10.1007/s00146-020-01066-z</a></li>
+<li id="ref-44"><span class="ref-num">[44]</span> Park &amp; Yoon, 2025</li>
+<li id="ref-45"><span class="ref-num">[45]</span> Microsoft Responsible AI Transparency Report. <a href="https://www.microsoft.com/en-us/corporate-responsibility/responsible-ai-transparency-report/" target="_blank">https://www.microsoft.com/en-us/corporate-responsibility/responsible-ai-transparency-report/</a></li>
+<li id="ref-46"><span class="ref-num">[46]</span> Reuel, A., et al. (2025). Responsible AI in the global context: Maturity model and survey. CHI 2025.</li>
+<li id="ref-47"><span class="ref-num">[47]</span> Microsoft Responsible AI Standard V2. (2022, June). Microsoft. <a href="https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/final/en-us/microsoft-brand/documents/Microsoft-Responsible-AI-Standard-General-Requirements.pdf" target="_blank">https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/final/en-us/microsoft-brand/documents/Microsoft-Responsible-AI-Standard-General-Requirements.pdf</a></li>
+<li id="ref-48"><span class="ref-num">[48]</span> Lunney, J., &amp; Lueder, S. Postmortem culture: Learning from failure. Google SRE. <a href="https://sre.google/sre-book/postmortem-culture/" target="_blank">https://sre.google/sre-book/postmortem-culture/</a></li>
+<li id="ref-49"><span class="ref-num">[49]</span> Croak, M., &amp; Gennai, J. (2022, July 6). An update on our work in responsible innovation. Google. <a href="https://blog.google/innovation-and-ai/products/an-update-on-our-work-in-responsible-innovation/" target="_blank">https://blog.google/innovation-and-ai/products/an-update-on-our-work-in-responsible-innovation/</a></li>
+<li id="ref-50"><span class="ref-num">[50]</span> Reuel et al., 2025</li>
+<li id="ref-51"><span class="ref-num">[51]</span> Anthropic's Transparency Hub. (2026, February 20). <a href="https://www.anthropic.com/transparency" target="_blank">https://www.anthropic.com/transparency</a></li>
+<li id="ref-52"><span class="ref-num">[52]</span> Lemley, 2024</li>
+<li id="ref-53"><span class="ref-num">[53]</span> Espiner, T., &amp; Jamali, L. "Disney and Universal sue AI firm Midjourney over images." BBC.</li>
+<li id="ref-54"><span class="ref-num">[54]</span> Martineau, K. (2026, February 17). IBM granite has earned a reputation for transparency. IBM Research. <a href="https://research.ibm.com/blog/granite-ethical-ai" target="_blank">https://research.ibm.com/blog/granite-ethical-ai</a></li>
+<li id="ref-55"><span class="ref-num">[55]</span> IBM. Trust and transparency. <a href="https://www.ibm.com/policy/trust-transparency" target="_blank">https://www.ibm.com/policy/trust-transparency</a></li>
+<li id="ref-56"><span class="ref-num">[56]</span> NIST. "AI Risk Management Framework." NIST.AI.100-1. <a href="https://doi.org/10.6028/NIST.AI.100-1" target="_blank">https://doi.org/10.6028/NIST.AI.100-1</a></li>
+<li id="ref-57"><span class="ref-num">[57]</span> Meta. Expanding our open source large language models responsibly. (2024, July 23). <a href="https://ai.meta.com/blog/meta-llama-3-1-ai-responsibility/" target="_blank">https://ai.meta.com/blog/meta-llama-3-1-ai-responsibility/</a></li>
+<li id="ref-58"><span class="ref-num">[58]</span> Sanneman, L., Tucker, M., &amp; Shah, J. A. (2024). An Information Bottleneck Characterization of the Understanding-Workload Tradeoff in Human-Centered Explainable AI. CHI 2024.</li>
+<li id="ref-59"><span class="ref-num">[59]</span> Sullivan, V., &amp; Weger, K. (2025). Transparency and Explainability in AI-Assisted Decision Making. CHI 2025.</li>
+<li id="ref-60"><span class="ref-num">[60]</span> Felzmann et al, 2020</li>
+<li id="ref-61"><span class="ref-num">[61]</span> Adobe Research. (2025). "Restoring Trust and Empowering Artists with Content Credentials." <a href="https://research.adobe.com/news/empowering-artists-with-content-credentials/" target="_blank">https://research.adobe.com/news/empowering-artists-with-content-credentials/</a></li>
+<li id="ref-62"><span class="ref-num">[62]</span> Nissenbaum, H. (1996). Accountability in a computerized society. Science and Engineering Ethics, 2(1), 25–42.</li>
+<li id="ref-63"><span class="ref-num">[63]</span> Raji, I. D., et al. (2020). Closing the AI Accountability Gap. FAccT 2020.</li>
+<li id="ref-64"><span class="ref-num">[64]</span> Papagiannidis, E., Mikalef, P., &amp; Conboy, K. (2025). Responsible artificial intelligence governance. The Journal of Strategic Information Systems, 34(2).</li>
+<li id="ref-65"><span class="ref-num">[65]</span> BBC. (2019, November 11). Apple's "sexist" credit card investigated by US Regulator. <a href="https://www.bbc.com/news/business-50365609" target="_blank">https://www.bbc.com/news/business-50365609</a></li>
+<li id="ref-66"><span class="ref-num">[66]</span> Reuters. (2019, November 10). Apple card issuer investigated after claims of sexist credit checks. The Guardian. <a href="https://www.theguardian.com/technology/2019/nov/10/apple-card-issuer-investigated-after-claims-of-sexist-credit-checks" target="_blank">https://www.theguardian.com/technology/2019/nov/10/apple-card-issuer-investigated-after-claims-of-sexist-credit-checks</a></li>
+<li id="ref-67"><span class="ref-num">[67]</span> New York State Department of Financial Services. (2021, March). Report on Apple Card Investigation. <a href="https://www.dfs.ny.gov/system/files/documents/2021/03/rpt_202103_apple_card_investigation.pdf" target="_blank">https://www.dfs.ny.gov/system/files/documents/2021/03/rpt_202103_apple_card_investigation.pdf</a></li>
+<li id="ref-68"><span class="ref-num">[68]</span> Responsible AI Collaborative. (2026). AI Incident Database. <a href="https://incidentdatabase.ai/" target="_blank">https://incidentdatabase.ai/</a></li>
+<li id="ref-69"><span class="ref-num">[69]</span> International Ombuds Association. <a href="https://www.ombudsassociation.org" target="_blank">https://www.ombudsassociation.org</a></li>
+    </ol>
+  </div>
+</section>
+
+<script>
+// Sticky nav active state via IntersectionObserver
+const sections = ['exec-summary','introduction','background','in-practice','tools','challenges','plays','cta','appendix'];
+const navLinks = document.querySelectorAll('.nav a');
+const observers = [];
+
+const activate = (id) => {
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+  });
+};
+
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) activate(id); });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  obs.observe(el);
+  observers.push(obs);
+});
+</script>
+</main><!-- /.main-content -->
+</div><!-- /.page-shell -->
+</body>
+</html>
