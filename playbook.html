@@ -1118,9 +1118,8 @@ table.plays-table {
   background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
   color: white;
   padding: 80px 40px;
-  text-align: center;
 }
-.cta-inner { max-width: 720px; margin: 0 auto; }
+.cta-inner { max-width: 900px; margin: 0 auto; }
 .cta-section h2 {
   font-size: 36px;
   font-weight: 900;
@@ -1528,7 +1527,6 @@ button:focus-visible {
     <a href="#challenges">V. Challenges</a>
     <a href="#plays" class="plays">VI. The Plays</a>
     <a href="#cta">Call to Action</a>
-    <a href="#appendix">Appendix</a>
   </div>
 </nav>
 <main id="main-content" class="main-content">
@@ -1572,7 +1570,7 @@ button:focus-visible {
       <div class="meta-card" style="grid-column: 1 / -1;">
         <h3>How and by whom was this playbook developed?</h3>
         <p>This playbook was developed by the Responsible AI Initiative at the UC Berkeley AI Research Lab with Berkeley Haas. It was authored by Genevieve Smith and Natalia Luka. It benefited from research assistance by Naisha Jain, Oliver Lucca DeVita, Urmi Sumant, Dominique Wimmer, and Vinaya Sivakumar. The playbook synthesizes existing literature and builds from research conducted by a broader team including Genevieve Smith, Natalia Luka, Sahiba Chopra, Min Kyung Lee, and Dominique Wimmer. The playbook was prototyped with managers and business leaders. The project received funding support from Google. (See Appendix for full acknowledgements.)</p>
-        <p style="margin-top:10px;font-size:13px;color:var(--text-light);"><em>Disclaimer: This playbook was published in April 2026. Mention of a company product in this playbook does not constitute endorsement.</em></p>
+        <p style="margin-top:10px;font-size:13px;color:var(--text-light);"><em>This playbook was published in April 2026.</em></p>
       </div>
     </div>
   </div>
@@ -1943,7 +1941,6 @@ button:focus-visible {
       </ul>
       <p style="margin-top:12px;">Disclosure goes beyond technical performance to organizational practices. This includes, as researchers have noted, labor practices, such as the recruitment of data annotation workers in the Global South, which remains one of the least transparent areas across the industry.</p>
       <p style="margin-top:12px;"><em>Examples: International initiatives such as the OECD Hiroshima AI Process Reporting Framework that allows for comparison of disclosure practices across organizations. The EU recently developed a Code of Practice on marking and labelling of AI-generated content that sets standards for providers and deployers of AI-generated content.</em></p>
-      <p style="margin-top:12px;"><strong>For more information on the various examples and tools, including how they are similar and different, we have created this <a href="#appendix">AI Transparency Mapping</a>.</strong></p>
     </div>
 
     <div class="section-divider">
@@ -2679,7 +2676,7 @@ button:focus-visible {
 <!-- ===== CALL TO ACTION ===== -->
 <section class="cta-section" id="cta">
   <div class="cta-inner">
-    <h2>Start with One Play and Build From There</h2>
+    <h2>Call to Action</h2>
     <p>Maya, the product lead we met at the start of this playbook, faced the crisis head on. After the client's AI system gave a confident but wrong answer with no explanation and no recourse, she and her organization took action: they established transparency as a leadership principle, built internal governance structures, set clear disclosure standards, documented system limitations, built user-facing explanations into their products, and created pathways for clients to raise concerns. The result was renewed client trust, greater confidence in their systems, and a stronger foundation for growth.</p>
     <p>Meaningful transparency is not a single feature or checkbox. It is a combination of leadership commitment, organizational infrastructure, documentation practices, evaluation processes, and user-facing design. Each layer reinforces the other.</p>
     <p>This is not simply compliance: Transparency is central to trust. As standards continue to evolve, those who see transparency as a strategic investment and take action now, will get ahead and stay ahead.</p>
@@ -2688,18 +2685,8 @@ button:focus-visible {
 </section>
 
 <!-- ===== APPENDIX ===== -->
-<section class="chapter-break" id="appendix">
-  <div class="chapter-numeral">App</div>
-  <div class="chapter-break-inner">
-    <div class="chapter-text">
-      <div class="chapter-eyebrow">Appendix</div>
-      <h2 class="chapter-name">AI Transparency <span>Tool Comparison</span></h2>
-      <p class="chapter-desc">A summary of key transparency tools and the dimensions they address across affected stakeholders, integration, risks, user transparency, accountability, and societal impacts.</p>
-    </div>
-  </div>
-</section>
-<div class="geo-banner"></div>
-<section class="section" id="appendix-body">
+<div id="appendix"></div>
+<section class="section" style="display:none;">
   <div class="section-wide">
     <div class="appendix-wrap">
       <table class="appendix-table" aria-label="AI transparency tools comparison">
@@ -2801,7 +2788,6 @@ button:focus-visible {
     </div>
   </div>
 </section>
-
 <!-- ===== FOOTER ===== -->
 <footer>
   <div>Transparency in Generative AI Systems: A Playbook</div>
