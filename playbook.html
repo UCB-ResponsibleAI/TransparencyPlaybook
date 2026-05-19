@@ -1853,20 +1853,101 @@ button:focus-visible {
     <h3 class="section-title" style="margin-top:48px;">Transparency for whom?</h3>
     <p>Transparency means different things to different stakeholders. What counts as "transparent" depends on who is interacting with the system and what they are doing with it.</p>
     <p style="margin-top:16px;">User transparency helps end users understand and trust both AI outputs (e.g., through citations and confidence scores) and the broader AI system (e.g., its data use and retention, and any external influences), enabling them to make informed decisions. Meanwhile, developer transparency supports system builders to understand, debug, and enhance AI models by providing insights into their internal workings. Organizations adopting third-party models also need this kind of transparency from model providers in order to make informed decisions and support accountability. Regulatory transparency and societal transparency support external accountability, compliance, and public legitimacy.<sup class="cite"><a href="#ref-7" id="citeref-7">[7]</a></sup></p>
-    <p style="margin-top:16px;">In a 2026 survey, the UCB Responsible AI Initiative asked over 400 respondents what forms of transparency matter most to them when using genAI. The population included end users, developers, and policymakers across income levels and geographies. Trusting accuracy and protecting privacy emerged as the top two priorities overall, with 73% of respondents selecting accuracy as their primary transparency need, followed by privacy and data protection at 49%. Notably, privacy and accuracy were the top two transparency needs across respondents in high, middle, and low-income countries.</p>
-    <p style="margin-top:16px;">While transparency needs were broadly similar across groups, each group is solving a different problem, with different reported gaps linked to those needs:</p>
-    <div style="overflow-x:auto;margin-top:16px;">
-      <table class="plays-table" style="font-size:13px;" aria-label="Transparency needs by stakeholder group">
-        <thead><tr><th scope="col">Stakeholder</th><th scope="col">Primary Transparency Need</th><th scope="col">Biggest Reported Gap</th></tr></thead>
-        <tbody>
-          <tr><td><strong>End users</strong></td><td>Knowing outputs are accurate and that a system is trustworthy</td><td>Limited AI disclosure and personal data privacy information</td></tr>
-          <tr><td><strong>Developers</strong></td><td>Evidence to justify and defend system behavior</td><td>Performance evaluation, system operation transparency, and training data visibility</td></tr>
-          <tr><td><strong>Policymakers</strong></td><td>Tools and frameworks to oversee and hold AI systems accountable</td><td>Documentation, privacy information, and AI disclosure</td></tr>
-        </tbody>
-      </table>
+    <p style="margin-top:16px;">In a 2026 survey, the UCB Responsible AI Initiative asked 400 end users, developers, and policymakers globally what transparency means to them, which features matter most, and where the biggest gaps exist. Trusting accuracy and protecting privacy emerged as the top two priorities overall, with 73% of respondents selecting accuracy as their primary transparency need, followed by privacy and data protection at 49%. Notably, these two priorities were consistent across respondents in high, middle, and low-income countries.</p>
+    <p style="margin-top:16px;">Across thirteen transparency features ranging from user-facing to governance-related, end users prioritize citations and sources, privacy information, and confidence indicators, reflecting their need to trust that outputs are accurate and that systems are trustworthy. Developers and policymakers place greater weight on training data information, independent audits, and societal impact, reflecting their more governance-oriented roles. Yet across groups, features considered most important are consistently the least available, particularly for end users.</p>
+
+    <div style="margin: 2rem 0;">
+      <canvas id="transparencyGapChart" style="max-width: 100%; height: auto;"></canvas>
+      <p style="font-size: 13px; color: rgba(0,0,0,0.5); margin-top: 8px; font-style: italic;">
+        Gap scores reflect the difference between how important respondents rated each transparency feature (0–100) and how available they said it was (0–100). End users consistently experience the largest gaps across both user-facing and governance features.
+      </p>
     </div>
-    <p style="margin-top:16px;">Notably, developers cared more about understanding how the system works overall than about trusting individual outputs, suggesting that technical familiarity shifts transparency needs away from "is this answer right?" toward "is this system well-designed and governed?"</p>
-    <p style="margin-top:16px;">In short, transparency is best understood as an end goal: enabling different groups to engage with AI systems meaningfully and responsibly, rather than a one-size-fits-all definition or technique.</p>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <script>
+      const ctx = document.getElementById('transparencyGapChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['All 13 features', 'User-facing (6)', 'Governance (7)'],
+          datasets: [
+            {
+              label: 'End user (n=250)',
+              data: [35.0, 34.9, 35.1],
+              backgroundColor: '#4a90d9',
+              borderRadius: 4,
+            },
+            {
+              label: 'Builder (n=94)',
+              data: [17.2, 18.5, 16.0],
+              backgroundColor: '#f0a500',
+              borderRadius: 4,
+            },
+            {
+              label: 'Policymaker (n=56)',
+              data: [21.9, 20.7, 22.9],
+              backgroundColor: '#4caf7d',
+              borderRadius: 4,
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Which Group Experiences the Largest Transparency Gaps?',
+              font: { size: 16, weight: 'bold' },
+              color: '#0f1f3d',
+              padding: { bottom: 20 }
+            },
+            legend: {
+              position: 'bottom',
+              labels: {
+                padding: 20,
+                font: { size: 13 },
+                color: '#333'
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return context.dataset.label + ': ' + context.parsed.y + ' pts';
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 45,
+              title: {
+                display: true,
+                text: 'Mean gap score (importance − availability)',
+                color: '#666',
+                font: { size: 12 }
+              },
+              grid: {
+                color: 'rgba(0,0,0,0.06)'
+              },
+              ticks: {
+                color: '#666'
+              }
+            },
+            x: {
+              grid: {
+                display: false
+              },
+              ticks: {
+                color: '#333',
+                font: { size: 13 }
+              }
+            }
+          }
+        }
+      });
+    </script>
+    <p style="margin-top:16px;">The implication for business leaders is clear: stakeholders want more transparency than they are currently getting. Also, needs differ across groups. Transparency is best understood as an end goal: enabling different groups to engage with AI systems meaningfully and responsibly, rather than a one-size-fits-all definition or technique.</p>
 
     <h3 class="section-title" style="margin-top:48px;">The current state of genAI transparency</h3>
     <p>Despite widespread agreement that transparency is important, genAI transparency remains limited.</p>
